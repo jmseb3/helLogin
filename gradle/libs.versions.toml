@@ -1,0 +1,29 @@
+[versions]
+kotlin = "2.0.0"
+compose = "1.6.10"
+agp = "8.2.2"
+androidx-activityCompose = "1.9.0"
+androidx-uiTest = "1.6.7"
+androidx-credential = "1.3.0-alpha01"
+
+[libraries]
+
+androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
+androidx-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
+
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credential" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credential" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version = "1.1.1" }
+
+[plugins]
+
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+[bundles]
+android-google = ["androidx-credentials", "androidx-credentials-play-services-auth","googleid"]
