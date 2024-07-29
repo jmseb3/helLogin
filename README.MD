@@ -100,3 +100,5 @@ or if use `io.github.jmseb3:hellogin-google-ui` , GoogleLoginButton()
 ~~~kotlin
     GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()
 ~~~
+
+3. you can receive result  `handleGoogleToken` or `handleFail`
