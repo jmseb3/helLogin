@@ -101,4 +101,4 @@ or if use `io.github.jmseb3:hellogin-google-ui` , GoogleLoginButton()
     GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()
 ~~~
 
-3. you can receive result  `handleGoogleToken` or `handleFail`
+3. you can receive result  by `handleGoogleToken` or `handleFail`

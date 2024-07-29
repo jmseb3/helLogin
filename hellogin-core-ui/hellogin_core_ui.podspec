@@ -1,23 +1,23 @@
 Pod::Spec.new do |spec|
-    spec.name                     = 'hellogin_core'
+    spec.name                     = 'hellogin_core_ui'
     spec.version                  = '1.0.0'
     spec.homepage                 = 'empty'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'Compose application framework'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/helloginCore.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/helloginCoreUi.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '13.0'
                 
                 
-    if !Dir.exist?('build/cocoapods/framework/helloginCore.framework') || Dir.empty?('build/cocoapods/framework/helloginCore.framework')
+    if !Dir.exist?('build/cocoapods/framework/helloginCoreUi.framework') || Dir.empty?('build/cocoapods/framework/helloginCoreUi.framework')
         raise "
 
-        Kotlin framework 'helloginCore' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'helloginCoreUi' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
-            ./gradlew :hellogin-core:generateDummyFramework
+            ./gradlew :hellogin-core-ui:generateDummyFramework
 
         Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
     end
@@ -27,13 +27,13 @@ Pod::Spec.new do |spec|
     }
                 
     spec.pod_target_xcconfig = {
-        'KOTLIN_PROJECT_PATH' => ':hellogin-core',
-        'PRODUCT_MODULE_NAME' => 'helloginCore',
+        'KOTLIN_PROJECT_PATH' => ':hellogin-core-ui',
+        'PRODUCT_MODULE_NAME' => 'helloginCoreUi',
     }
                 
     spec.script_phases = [
         {
-            :name => 'Build hellogin_core',
+            :name => 'Build hellogin_core_ui',
             :execution_position => :before_compile,
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT

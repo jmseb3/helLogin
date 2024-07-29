@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
-import com.wonddak.hellogin.hellogin_google_ui.generated.resources.Res
-import com.wonddak.hellogin.hellogin_google_ui.generated.resources.ic_google
-import com.wonddak.hellogin.hellogin_google_ui.generated.resources.roboto_medium
+import io.github.jmseb3.hellogin_google_ui.generated.resources.Res
+import io.github.jmseb3.hellogin_google_ui.generated.resources.ic_google
+import io.github.jmseb3.hellogin_google_ui.generated.resources.roboto_medium
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource

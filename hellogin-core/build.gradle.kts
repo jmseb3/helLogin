@@ -1,5 +1,4 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import com.android.build.api.dsl.ManagedVirtualDevice
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
@@ -10,10 +9,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.android.library)
-    `maven-publish`
 }
-group = "com.wonddak.hellogin"
-version = "1.0.0"
 
 kotlin {
     androidTarget {
@@ -51,7 +47,6 @@ kotlin {
             baseName = "helloginCore"
             isStatic = true
         }
-        noPodspec()
     }
 
     sourceSets {

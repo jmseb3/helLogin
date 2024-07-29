@@ -10,10 +10,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.android.library)
-    `maven-publish`
 }
-group = "com.wonddak.hellogin"
-version = "1.0.0"
 
 kotlin {
     androidTarget {
@@ -51,7 +48,6 @@ kotlin {
             baseName = "helloginCoreUi"
             isStatic = true
         }
-        noPodspec()
     }
 
     sourceSets {
