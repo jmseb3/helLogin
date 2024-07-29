@@ -33,6 +33,8 @@ how to use this library
 
 ### Google
 
+> don't forget Google Api console setting!!
+
 1. plz install first `AndroidGoogleLoginOptionProvider` or `IOSGoogleLoginOptionProvider` per platform
 ~~~kotlin
 //androidApp
@@ -94,7 +96,7 @@ fun MainViewController(): UIViewController {
 ~~~kotlin
    GoogleLoginHelper.requestLogin() //this is suspend function
 ~~~
-or if use `io.github.jmseb3:hellogin-google-ui`
+or if use `io.github.jmseb3:hellogin-google-ui` , GoogleLoginButton()
 ~~~kotlin
     GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()
 ~~~
