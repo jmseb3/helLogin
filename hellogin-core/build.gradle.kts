@@ -46,7 +46,7 @@ kotlin {
         version = "1.0.0"
         summary = "Compose application framework"
         homepage = "empty"
-        ios.deploymentTarget = "11.0"
+        ios.deploymentTarget = "13.0"
         framework {
             baseName = "helloginCore"
             isStatic = true

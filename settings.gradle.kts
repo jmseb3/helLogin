@@ -3,6 +3,10 @@ include(":sample:composeApp")
 include(":hellogin-core")
 include(":hellogin-google")
 
+include(":hellogin-core-ui")
+include(":hellogin-google-ui")
+
+
 pluginManagement {
     repositories {
         google()

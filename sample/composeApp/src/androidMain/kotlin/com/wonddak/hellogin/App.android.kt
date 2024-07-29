@@ -35,10 +35,6 @@ class AppActivity : ComponentActivity(), AndroidGoogleLoginOptionProvider {
         setContent { App() }
     }
 
-    override fun provideCredentialManager(): CredentialManager {
-        return CredentialManager.create(this.applicationContext)
-    }
-
     override fun provideGoogleIdOption(): GetGoogleIdOption {
         return GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
@@ -58,14 +54,4 @@ class AppActivity : ComponentActivity(), AndroidGoogleLoginOptionProvider {
     override fun provideContainer(): Container {
         return this
     }
-}
-
-internal actual fun openUrl(url: String?) {
-    val uri = url?.let { Uri.parse(it) } ?: return
-    val intent = Intent().apply {
-        action = Intent.ACTION_VIEW
-        data = uri
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    }
-    AndroidApp.INSTANCE.startActivity(intent)
 }

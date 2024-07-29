@@ -1,23 +1,23 @@
 Pod::Spec.new do |spec|
-    spec.name                     = 'hellogin_google'
+    spec.name                     = 'hellogin_google_ui'
     spec.version                  = '1.0.0'
     spec.homepage                 = 'empty'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'Compose application framework'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/helloginGoogle.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/helloginGoogleUi.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '13.0'
-    spec.dependency 'GoogleSignIn'
                 
-    if !Dir.exist?('build/cocoapods/framework/helloginGoogle.framework') || Dir.empty?('build/cocoapods/framework/helloginGoogle.framework')
+                
+    if !Dir.exist?('build/cocoapods/framework/helloginGoogleUi.framework') || Dir.empty?('build/cocoapods/framework/helloginGoogleUi.framework')
         raise "
 
-        Kotlin framework 'helloginGoogle' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'helloginGoogleUi' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
-            ./gradlew :hellogin-google:generateDummyFramework
+            ./gradlew :hellogin-google-ui:generateDummyFramework
 
         Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
     end
@@ -27,13 +27,13 @@ Pod::Spec.new do |spec|
     }
                 
     spec.pod_target_xcconfig = {
-        'KOTLIN_PROJECT_PATH' => ':hellogin-google',
-        'PRODUCT_MODULE_NAME' => 'helloginGoogle',
+        'KOTLIN_PROJECT_PATH' => ':hellogin-google-ui',
+        'PRODUCT_MODULE_NAME' => 'helloginGoogleUi',
     }
                 
     spec.script_phases = [
         {
-            :name => 'Build hellogin_google',
+            :name => 'Build hellogin_google_ui',
             :execution_position => :before_compile,
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT

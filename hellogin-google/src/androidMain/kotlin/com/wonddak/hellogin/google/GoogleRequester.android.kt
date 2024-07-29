@@ -22,8 +22,6 @@ interface AndroidGoogleLoginOptionProvider : GoogleLoginProvider {
 
     override fun provideContainer(): Container
 
-    fun provideCredentialManager(): CredentialManager
-
     fun provideGoogleIdOption(): GetGoogleIdOption
 
     override suspend fun startGoogleLogin() {
@@ -31,12 +29,11 @@ interface AndroidGoogleLoginOptionProvider : GoogleLoginProvider {
             .addCredentialOption(provideGoogleIdOption())
             .build()
         runCatching {
-            Log.d("JWH","cred : ${provideCredentialManager()}")
-            val result = provideCredentialManager().getCredential(
+            val provideCredentialManager = CredentialManager.create(provideContainer().applicationContext)
+            val result = provideCredentialManager.getCredential(
                 request = request,
                 context = provideContainer()
             )
-            Log.d("JWH","result : $result")
             when (val credential = result.credential) {
                 is CustomCredential -> {
                     if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {

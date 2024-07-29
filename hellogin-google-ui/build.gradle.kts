@@ -8,8 +8,12 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.cocoapods)
+    alias(libs.plugins.android.library)
+    `maven-publish`
 }
+group = "com.wonddak.hellogin"
+version = "1.0.0"
 
 kotlin {
     androidTarget {
@@ -30,15 +34,21 @@ kotlin {
                 implementation(libs.androidx.junit4)
             }
         }
+        publishLibraryVariants("release")
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "ComposeApp"
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+
+    cocoapods {
+        version = "1.0.0"
+        summary = "Compose application framework"
+        homepage = "empty"
+        ios.deploymentTarget = "13.0"
+        framework {
+            baseName = "helloginGoogleUi"
             isStatic = true
         }
     }
@@ -50,11 +60,8 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-
-            implementation(project(":hellogin-core"))
-            implementation(project(":hellogin-google"))
-            implementation(project(":hellogin-core-ui"))
-            implementation(project(":hellogin-google-ui"))
+            api(project(":hellogin-google"))
+            api(project(":hellogin-core-ui"))
         }
 
         commonTest.dependencies {
@@ -62,46 +69,20 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
-
-        androidMain.dependencies {
-            implementation(compose.uiTooling)
-            implementation(libs.androidx.activityCompose)
-        }
-
-        iosMain.dependencies {
-        }
-
     }
 }
 
 android {
-    namespace = "com.wonddak.hellogin"
+    namespace = "com.wonddak.hellogin.google"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 34
-
-        applicationId = "com.wonddak.hellogin.androidApp"
-        versionCode = 1
-        versionName = "1.0.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
         res.srcDirs("src/androidMain/res")
-    }
-    //https://developer.android.com/studio/test/gradle-managed-devices
-    @Suppress("UnstableApiUsage")
-    testOptions {
-        managedDevices.devices {
-            maybeCreate<ManagedVirtualDevice>("pixel5").apply {
-                device = "Pixel 5"
-                apiLevel = 34
-                systemImageSource = "aosp"
-            }
-        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
