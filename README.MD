@@ -5,7 +5,7 @@ This is Compose Multiplatform auth library
 - ✅ Google Login
 
 ## Installation
-KMPAuth is available on Maven Central. In your root project `build.gradle.kts` file (or `settings.gradle` file) add `mavenCentral()` to repositories.
+HelLogin is available on Maven Central. In your root project `build.gradle.kts` file (or `settings.gradle` file) add `mavenCentral()` to repositories.
 
 ```kotlin
 repositories { 
