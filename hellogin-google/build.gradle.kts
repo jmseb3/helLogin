@@ -10,7 +10,10 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.android.library)
+    `maven-publish`
 }
+group = "com.wonddak.hellogin"
+version = "1.0.0"
 
 kotlin {
     androidTarget {
@@ -31,6 +34,7 @@ kotlin {
                 implementation(libs.androidx.junit4)
             }
         }
+        publishLibraryVariants("release")
     }
 
     iosX64()
@@ -62,7 +66,7 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(libs.bundles.android.google)
+            api(libs.bundles.android.google)
         }
 
         iosMain.dependencies {

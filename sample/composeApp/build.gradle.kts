@@ -51,8 +51,8 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(project(":hellogin-core"))
-            implementation(project(":hellogin-google"))
+            implementation("com.wonddak.hellogin:hellogin-core:1.0.0")
+            implementation("com.wonddak.hellogin:hellogin-google:1.0.0")
         }
 
         commonTest.dependencies {

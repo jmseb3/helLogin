@@ -10,7 +10,10 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.android.library)
+    `maven-publish`
 }
+group = "com.wonddak.hellogin"
+version = "1.0.0"
 
 kotlin {
     androidTarget {
@@ -31,6 +34,7 @@ kotlin {
                 implementation(libs.androidx.junit4)
             }
         }
+        publishLibraryVariants("release")
     }
 
     iosX64()
@@ -47,6 +51,7 @@ kotlin {
             baseName = "helloginCore"
             isStatic = true
         }
+        noPodspec()
     }
 
     sourceSets {
@@ -60,15 +65,6 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
-
-        androidMain.dependencies {
-
-        }
-
-        iosMain.dependencies {
-
-        }
-
     }
 }
 
