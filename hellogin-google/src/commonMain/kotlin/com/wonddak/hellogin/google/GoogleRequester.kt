@@ -49,9 +49,13 @@ expect class GoogleLoginProvider() {
  * @see[TokenResultHandler]
  */
 interface GoogleTokenHandler : TokenResultHandler<GoogleResult> {
-    override fun onSuccess(token: GoogleResult)
+    override fun onSuccess(token: GoogleResult) {
+        TODO("Not yet implemented")
+    }
 
-    override fun onFail(error: Error?)
+    override fun onFail(error: Error?) {
+        TODO("Not yet implemented")
+    }
 }
 
 /**

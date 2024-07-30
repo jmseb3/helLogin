@@ -17,7 +17,9 @@ import com.wonddak.hellogin.theme.AppTheme
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun App() = AppTheme {
+internal fun App(
+    googleTokenHandler: GoogleTokenHandler
+) = AppTheme {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -26,15 +28,6 @@ internal fun App() = AppTheme {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        val googleTokenHandler = object : GoogleTokenHandler {
-            override fun onSuccess(token: GoogleResult) {
-                println("onSuccess Google Login >> $token")
-            }
-
-            override fun onFail(error: Error?) {
-                println("onFail Google Login >> $error")
-            }
-        }
         GoogleLoginButton(
             type = ButtonType.IconOnly,
             mode = ButtonTheme.Light,

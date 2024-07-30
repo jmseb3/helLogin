@@ -63,7 +63,6 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
 ~~~kotlin
 //iosApp
 fun MainViewController(): UIViewController {
-    @OptIn(ExperimentalForeignApi::class)
     val provider = object : GoogleOptionProvider {
         override fun provideContainer(): Container {
             val presentingViewController = ((UIApplication.sharedApplication().connectedScenes()
@@ -87,13 +86,14 @@ fun MainViewController(): UIViewController {
 
 2. launch `GoogleLoginHelper`
 ~~~kotlin
-   GoogleLoginHelper.requestLogin() //this is suspend function need setting GoogleLoginHelper.
+   GoogleLoginHelper.requestLogin() //this is suspend function
 ~~~
 > `requestLogin` need setting GoogleLoginHelper.setTokenHandler() 
 //or
 ~~~kotlin
     GoogleLoginHelper.requestLoginWithTokenHandler(tokenHandler) //this is suspend function
 ~~~
+
 or if use `io.github.jmseb3:hellogin-google-ui` , GoogleLoginButton()
 ~~~kotlin
     GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()

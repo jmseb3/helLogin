@@ -11,7 +11,7 @@ interface LoginRequester {
  * Result Handler For T
  * T is Token Per Auth
  */
-interface TokenResultHandler<T> {
+interface TokenResultHandler<T:Any> {
     fun onSuccess(token:T)
     fun onFail(error: Error?)
 }
