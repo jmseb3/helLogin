@@ -33,15 +33,15 @@ how to use this library
 
 ### Google
 
-> don't forget Google Api console setting!!
+> don't forget (Google Api console setting)[https://console.cloud.google.com/]!!
 
-1. plz install first `AndroidGoogleLoginOptionProvider` or `IOSGoogleLoginOptionProvider` per platform
+1. plz install first `GoogleOptionProvider`per platform
 ~~~kotlin
 //androidApp
-class AppActivity : ComponentActivity(), AndroidGoogleLoginOptionProvider {
+class AppActivity : ComponentActivity(), OptionProviderAndroid {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GoogleLoginHelper.setProvider(this)
+        GoogleLoginHelper.setOptionProvider(this)
         enableEdgeToEdge()
         setContent { App() }
     }
@@ -49,17 +49,8 @@ class AppActivity : ComponentActivity(), AndroidGoogleLoginOptionProvider {
     override fun provideGoogleIdOption(): GetGoogleIdOption {
         return GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("336197927146-86mr7gssplbigvpq2nob1r0orpho8gvp.apps.googleusercontent.com")
+            .setServerClientId("WEB_CLIENT_ID")
             .build()
-    }
-
-    override fun handleGoogleToken(token: GoogleResult) {
-        Log.d("JWH","success : $token")
-    }
-
-    override fun handleFail(error: Error?) {
-        error?.printStackTrace()
-        Log.d("JWH","fail : $error")
     }
 
     override fun provideContainer(): Container {
@@ -67,20 +58,13 @@ class AppActivity : ComponentActivity(), AndroidGoogleLoginOptionProvider {
     }
 }
 ~~~
+> use `OptionProviderAndroid` because need `GetGoogleIdOption`
 
 ~~~kotlin
 //iosApp
 fun MainViewController(): UIViewController {
     @OptIn(ExperimentalForeignApi::class)
-    val provider = object : IOSGoogleLoginOptionProvider {
-        override fun handleGoogleToken(token: GoogleResult) {
-            print("JWH handle success : $token")
-        }
-
-        override fun handleFail(error: Error?) {
-            print("JWH handle error : $error")
-        }
-
+    val provider = object : GoogleOptionProvider {
         override fun provideContainer(): Container {
             val presentingViewController = ((UIApplication.sharedApplication().connectedScenes()
                 .first() as? UIWindowScene)?.windows() as List<UIWindow?>).first()?.rootViewController()!!
@@ -91,14 +75,32 @@ fun MainViewController(): UIViewController {
     return ComposeUIViewController { App() }
 }
 ~~~
+or 
+~~~kotlin
+//iosApp
+fun MainViewController(): UIViewController {
+    GoogleLoginHelper.setDefaultOptionProvider()
+    return ComposeUIViewController { App() }
+}
+~~~
+> `setDefaultOptionProvider()` is Ios Only,, this provide Top ViewController
 
 2. launch `GoogleLoginHelper`
 ~~~kotlin
-   GoogleLoginHelper.requestLogin() //this is suspend function
+   GoogleLoginHelper.requestLogin() //this is suspend function need setting GoogleLoginHelper.
+~~~
+> `requestLogin` need setting GoogleLoginHelper.setTokenHandler() 
+//or
+~~~kotlin
+    GoogleLoginHelper.requestLoginWithTokenHandler(tokenHandler) //this is suspend function
 ~~~
 or if use `io.github.jmseb3:hellogin-google-ui` , GoogleLoginButton()
 ~~~kotlin
     GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()
 ~~~
+//or
+~~~kotlin
+    GoogleLoginButton(tokenResultHandler = googleTokenHandler) // button action is GoogleLoginHelper.requestLoginWithTokenHandler()
+~~~
 
-3. you can receive result  by `handleGoogleToken` or `handleFail`
+3. you can receive result  by `GoogleTokenHandler`, `onSuccess` or `onFail`

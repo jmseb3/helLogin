@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
+import com.wonddak.hellogin.core.TokenResultHandler
 import io.github.jmseb3.hellogin_google_ui.generated.resources.Res
 import io.github.jmseb3.hellogin_google_ui.generated.resources.ic_google
 import io.github.jmseb3.hellogin_google_ui.generated.resources.roboto_medium
@@ -33,6 +34,19 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
 
+/**
+ * GoogleLoginButton
+ * @param[modifier] Modifier
+ * @param[type] ButtonType
+ * @param[mode] ButtonTheme
+ * @param[shape] shape of Button
+ * @param[fontSize] size of text
+ * @param[tokenResultHandler] if not null, change tokenResultHandler When startLogin
+ *
+ * @see[ButtonType] type info
+ * @see[ButtonTheme] theme info
+ * @see[GoogleTokenHandler] GoogleTokenHandler
+ */
 @Composable
 fun GoogleLoginButton(
     modifier: Modifier = Modifier,
@@ -40,6 +54,7 @@ fun GoogleLoginButton(
     mode : ButtonTheme = ButtonTheme.Light,
     shape: Shape = ButtonDefaults.shape,
     fontSize: TextUnit = 14.sp,
+    tokenResultHandler: GoogleTokenHandler? = null
 ) {
     val scope = rememberCoroutineScope()
     if (type is ButtonType.WithText) {
@@ -50,7 +65,11 @@ fun GoogleLoginButton(
             contentPadding = PaddingValues(horizontal = horizontalPadding),
             onClick = {
                 scope.launch {
-                    GoogleLoginHelper.requestLogin()
+                    if (tokenResultHandler == null) {
+                        GoogleLoginHelper.requestLogin()
+                    } else {
+                        GoogleLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
+                    }
                 }
             },
             shape = shape,
@@ -76,7 +95,11 @@ fun GoogleLoginButton(
             contentPadding = PaddingValues(0.dp),
             onClick = {
                 scope.launch {
-                    GoogleLoginHelper.requestLogin()
+                    if (tokenResultHandler == null) {
+                        GoogleLoginHelper.requestLogin()
+                    } else {
+                        GoogleLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
+                    }
                 }
             },
             shape = shape,

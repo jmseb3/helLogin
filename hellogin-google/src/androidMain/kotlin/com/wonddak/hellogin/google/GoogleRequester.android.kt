@@ -14,25 +14,21 @@ import com.wonddak.hellogin.core.Error
 actual typealias GoogleResult = GoogleIdTokenCredential
 actual typealias Container = Activity
 
+fun GoogleLoginHelper.setOptionProvider(android: OptionProviderAndroid) {
+    this.setOptionProvider(android)
+}
 
-interface AndroidGoogleLoginOptionProvider : GoogleLoginProvider {
-    override fun handleGoogleToken(token: GoogleResult)
-
-    override fun handleFail(error: Error?)
-
-    override fun provideContainer(): Container
-
-    fun provideGoogleIdOption(): GetGoogleIdOption
-
-    override suspend fun startGoogleLogin() {
+actual class GoogleLoginProvider actual constructor() {
+    actual suspend fun startGoogleLogin(tokenHandler: GoogleTokenHandler,optionProvider: GoogleOptionProvider) {
+        optionProvider as OptionProviderAndroid
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
-            .addCredentialOption(provideGoogleIdOption())
+            .addCredentialOption(optionProvider.provideGoogleIdOption())
             .build()
         runCatching {
-            val provideCredentialManager = CredentialManager.create(provideContainer().applicationContext)
+            val provideCredentialManager = CredentialManager.create(optionProvider.provideContainer().applicationContext)
             val result = provideCredentialManager.getCredential(
                 request = request,
-                context = provideContainer()
+                context = optionProvider.provideContainer()
             )
             when (val credential = result.credential) {
                 is CustomCredential -> {
@@ -41,20 +37,27 @@ interface AndroidGoogleLoginOptionProvider : GoogleLoginProvider {
                             val googleIdTokenCredential = GoogleIdTokenCredential
                                 .createFrom(credential.data)
 
-                            handleGoogleToken(googleIdTokenCredential)
+                            tokenHandler.onSuccess(googleIdTokenCredential)
                         } catch (e: GoogleIdTokenParsingException) {
-                            handleFail(e)
+                            tokenHandler.onFail(e)
                         }
                     } else {
-                        throw IllegalArgumentException("not google Login Type")
+                        throw IllegalArgumentException("This is not CustomCredential But type is not TYPE_GOOGLE_ID_TOKEN_CREDENTIAL")
                     }
                 }
                 else -> {
-                    throw IllegalArgumentException("not google Login Type")
+                    throw IllegalArgumentException("This is not CustomCredential")
                 }
             }
         }.onFailure { e ->
-            handleFail(e)
+            tokenHandler.onFail(e)
         }
     }
+
+}
+
+interface OptionProviderAndroid : GoogleOptionProvider {
+    override fun provideContainer(): Container
+
+    fun provideGoogleIdOption() : GetGoogleIdOption
 }

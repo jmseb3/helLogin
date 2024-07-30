@@ -2,31 +2,61 @@ package com.wonddak.hellogin.google
 
 import com.wonddak.hellogin.core.Error
 import com.wonddak.hellogin.core.LoginRequester
+import com.wonddak.hellogin.core.TokenResultHandler
 
 
 expect class GoogleResult
 expect class Container
 
-object GoogleLoginHelper : LoginRequester{
+object GoogleLoginHelper : LoginRequester {
 
-    private var provider : GoogleLoginProvider? = null
+    private var provider: GoogleLoginProvider = GoogleLoginProvider()
 
-    fun setProvider(provider : GoogleLoginProvider) {
-        this.provider = provider
+    private var tokenHandler: GoogleTokenHandler? = null
+    private var optionProvider: GoogleOptionProvider? = null
+    fun setTokenHandler(tokenHandler: GoogleTokenHandler) {
+        this.tokenHandler = tokenHandler
+    }
+
+    fun setOptionProvider(optionProvider: GoogleOptionProvider) {
+        this.optionProvider = optionProvider
     }
 
     override suspend fun requestLogin() {
-        require(provider != null)
-        provider!!.startGoogleLogin()
+        require(tokenHandler != null)
+        require(optionProvider != null)
+        provider.startGoogleLogin(tokenHandler!!, optionProvider!!)
+    }
+
+    suspend fun requestLoginWithTokenHandler(tokenHandler: GoogleTokenHandler) {
+        setTokenHandler(tokenHandler)
+        this.requestLogin()
     }
 }
 
-interface GoogleLoginProvider {
-    fun handleGoogleToken(token: GoogleResult)
+/**
+ * expect Class For Google Login
+ */
+expect class GoogleLoginProvider() {
+    suspend fun startGoogleLogin(
+        tokenHandler: GoogleTokenHandler, optionProvider: GoogleOptionProvider,
+    )
+}
 
-    fun handleFail(error: Error?)
+/**
+ * Token Handler For GoogleResult
+ * @see[GoogleResult]
+ * @see[TokenResultHandler]
+ */
+interface GoogleTokenHandler : TokenResultHandler<GoogleResult> {
+    override fun onSuccess(token: GoogleResult)
 
-    fun provideContainer() : Container
+    override fun onFail(error: Error?)
+}
 
-    suspend fun startGoogleLogin()
+/**
+ * Option Provider Default Interface
+ */
+interface GoogleOptionProvider {
+    fun provideContainer(): Container
 }
