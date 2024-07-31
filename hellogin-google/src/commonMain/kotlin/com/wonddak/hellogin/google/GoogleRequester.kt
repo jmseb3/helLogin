@@ -7,7 +7,7 @@ import com.wonddak.hellogin.core.TokenResultHandler
 
 expect class GoogleResult
 
-expect fun GoogleResult.getTokenString() :String?
+expect fun GoogleResult.getTokenString(): String?
 expect class Container
 
 object GoogleLoginHelper : LoginRequester {
@@ -16,17 +16,29 @@ object GoogleLoginHelper : LoginRequester {
 
     private var tokenHandler: GoogleTokenHandler? = null
     private var optionProvider: GoogleOptionProvider? = null
+
+    /**
+     * setTokenHandler
+     * @see[GoogleTokenHandler]
+     */
     fun setTokenHandler(tokenHandler: GoogleTokenHandler) {
         this.tokenHandler = tokenHandler
     }
 
+    /**
+     * setOptionProvider
+     * @see[GoogleOptionProvider]
+     */
     fun setOptionProvider(optionProvider: GoogleOptionProvider) {
         this.optionProvider = optionProvider
     }
 
+    /**
+     * requestLogin
+     */
     override suspend fun requestLogin() {
-        require(tokenHandler != null)
-        require(optionProvider != null)
+        require(tokenHandler != null) { "tokenHandler not init" }
+        require(optionProvider != null) { "optionProvider not init" }
         provider.startGoogleLogin(tokenHandler!!, optionProvider!!)
     }
 
@@ -40,6 +52,9 @@ object GoogleLoginHelper : LoginRequester {
  * expect Class For Google Login
  */
 expect class GoogleLoginProvider() {
+    /**
+     * Start Request For Google Login
+     */
     suspend fun startGoogleLogin(
         tokenHandler: GoogleTokenHandler, optionProvider: GoogleOptionProvider,
     )

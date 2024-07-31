@@ -18,11 +18,17 @@ actual fun GoogleResult.getTokenString(): String? {
 }
 actual typealias Container = Activity
 
+/**
+ * set OptionProviderAndroid
+ */
 fun GoogleLoginHelper.setOptionProvider(android: OptionProviderAndroid) {
     this.setOptionProvider(android)
 }
 
 actual class GoogleLoginProvider actual constructor() {
+    /**
+     * Start Request For Google Login
+     */
     actual suspend fun startGoogleLogin(
         tokenHandler: GoogleTokenHandler,
         optionProvider: GoogleOptionProvider,
