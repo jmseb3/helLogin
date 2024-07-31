@@ -39,9 +39,6 @@ jobs:
             ./gradlew ${module}:assembleRelease
           done
 
-      - name: List generated AAR files
-        run: find . -name '*.aar'
-
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1.1.3
@@ -54,22 +51,9 @@ jobs:
           prerelease: false
 
       - name: Upload AAR files to Release
-        run: |
-          for module in $(./gradlew projects | grep 'Project :hellogin-.*' | awk '{print $2}' | sed 's/://'); do
-            aar_path=$(find ${module}/build/outputs/aar -name '*.aar')
-            if [ -f "$aar_path" ]; then
-              echo "::set-output name=aar_path_$module::$aar_path"
-            else
-              echo "No AAR found for module $module"
-            fi
-          done
-        id: find_aars
-
-      - name: Upload AAR file
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.find_aars.outputs.aar_path_${module} }}
-          asset_name: ${{ module }}.aar
+          asset_path: '**/build/outputs/aar/*.aar'
+          asset_name: my_module.aar
           asset_content_type: application/zip
-        continue-on-error: true
