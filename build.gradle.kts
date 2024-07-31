@@ -12,6 +12,7 @@ plugins {
     signing
 }
 
+val isSnapshot: String by project
 subprojects {
     if(name.startsWith("hellogin")) {
         apply(plugin = "org.jetbrains.dokka")
@@ -19,7 +20,11 @@ subprojects {
         apply(plugin = "signing")
 
         this.group = "io.github.jmseb3"
-        this.version = "1.0.0-SNAPSHOT"
+        if (isSnapshot == "true") {
+            this.version = "1.0.0-SNAPSHOT"
+        } else {
+            this.version = "1.0.0"
+        }
 
         // Stub secrets to let the project sync and build without the publication values set up
         ext["signing.keyId"] = null

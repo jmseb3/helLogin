@@ -5,6 +5,10 @@ This is Compose Multiplatform auth library
 ## Features
 
 - ✅ Google Login
+- 
+## To be added
+- ❎ Apple Login
+- ❎ Github Login
 
 ## Installation
 
