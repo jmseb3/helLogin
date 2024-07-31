@@ -5,6 +5,9 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,13 +35,13 @@ jobs:
       - name: Build AAR files
         run: |
           ./gradlew clean
-          for module in $(./gradlew projects | grep 'Project :.*' | awk '{print $2}' | sed 's/://'); do
+          for module in $(./gradlew projects | grep 'Project :hellogin-.*' | awk '{print $2}' | sed 's/://'); do
             ./gradlew ${module}:assembleRelease
           done
 
       - name: Create GitHub Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1.1.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
