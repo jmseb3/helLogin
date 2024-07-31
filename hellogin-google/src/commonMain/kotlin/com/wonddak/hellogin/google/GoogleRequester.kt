@@ -6,6 +6,8 @@ import com.wonddak.hellogin.core.TokenResultHandler
 
 
 expect class GoogleResult
+
+expect fun GoogleResult.getTokenString() :String?
 expect class Container
 
 object GoogleLoginHelper : LoginRequester {
@@ -50,11 +52,11 @@ expect class GoogleLoginProvider() {
  */
 interface GoogleTokenHandler : TokenResultHandler<GoogleResult> {
     override fun onSuccess(token: GoogleResult) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onFail(error: Error?) {
-        TODO("Not yet implemented")
+
     }
 }
 

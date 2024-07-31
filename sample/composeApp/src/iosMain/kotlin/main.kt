@@ -9,18 +9,7 @@ import com.wonddak.hellogin.google.setDefaultOptionProvider
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.UIKit.UIViewController
 
-@OptIn(ExperimentalForeignApi::class)
 fun MainViewController(): UIViewController {
     GoogleLoginHelper.setDefaultOptionProvider()
-    val tokenHandler = object : GoogleTokenHandler {
-        override fun onSuccess(token: GoogleResult) {
-            println("Google Login Success $token")
-        }
-
-        override fun onFail(error: Error?) {
-            println("Google Login onFail $error")
-        }
-
-    }
-    return ComposeUIViewController { App(tokenHandler) }
+    return ComposeUIViewController { App() }
 }

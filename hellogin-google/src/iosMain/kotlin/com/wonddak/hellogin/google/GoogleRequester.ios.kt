@@ -12,6 +12,10 @@ import platform.UIKit.UIWindowScene
 
 
 actual typealias GoogleResult = GIDSignInResult
+
+actual fun GoogleResult.getTokenString(): String? {
+    return this.user().idToken()?.tokenString
+}
 actual typealias Container = UIViewController
 
 actual class GoogleLoginProvider actual constructor() {
@@ -31,7 +35,7 @@ actual class GoogleLoginProvider actual constructor() {
     }
 }
 
-interface OptionProviderIos: GoogleOptionProvider {
+interface OptionProviderIos : GoogleOptionProvider {
     override fun provideContainer(): Container
 }
 
@@ -42,7 +46,8 @@ interface OptionProviderIos: GoogleOptionProvider {
 class OptionProviderIosDefault() : OptionProviderIos {
     override fun provideContainer(): Container {
         val presentingViewController = ((UIApplication.sharedApplication().connectedScenes()
-            .first() as? UIWindowScene)?.windows() as List<UIWindow?>).first()?.rootViewController()!!
+            .first() as? UIWindowScene)?.windows() as List<UIWindow?>).first()
+            ?.rootViewController()!!
         return presentingViewController
     }
 }

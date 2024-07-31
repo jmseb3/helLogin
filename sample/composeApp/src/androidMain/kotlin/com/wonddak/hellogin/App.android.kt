@@ -14,7 +14,7 @@ import com.wonddak.hellogin.google.GoogleResult
 import com.wonddak.hellogin.google.GoogleTokenHandler
 import com.wonddak.hellogin.google.OptionProviderAndroid
 
-class AndroidApp : Application(){
+class AndroidApp : Application() {
     companion object {
         lateinit var INSTANCE: AndroidApp
     }
@@ -25,12 +25,12 @@ class AndroidApp : Application(){
     }
 }
 
-class AppActivity : ComponentActivity(), OptionProviderAndroid,GoogleTokenHandler {
+class AppActivity : ComponentActivity(), OptionProviderAndroid {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GoogleLoginHelper.setOptionProvider(this)
         enableEdgeToEdge()
-        setContent { App(this@AppActivity) }
+        setContent { App() }
     }
 
     override fun provideGoogleIdOption(): GetGoogleIdOption {
@@ -42,13 +42,5 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid,GoogleTokenHandle
 
     override fun provideContainer(): Container {
         return this
-    }
-
-    override fun onSuccess(token: GoogleResult) {
-        Log.d("JWH","google Login Success $token")
-    }
-
-    override fun onFail(error: Error?) {
-        Log.e("JWH","fail google Login",error)
     }
 }

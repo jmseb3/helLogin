@@ -12,6 +12,10 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import com.wonddak.hellogin.core.Error
 
 actual typealias GoogleResult = GoogleIdTokenCredential
+
+actual fun GoogleResult.getTokenString(): String? {
+    return this.idToken
+}
 actual typealias Container = Activity
 
 fun GoogleLoginHelper.setOptionProvider(android: OptionProviderAndroid) {
@@ -19,13 +23,17 @@ fun GoogleLoginHelper.setOptionProvider(android: OptionProviderAndroid) {
 }
 
 actual class GoogleLoginProvider actual constructor() {
-    actual suspend fun startGoogleLogin(tokenHandler: GoogleTokenHandler,optionProvider: GoogleOptionProvider) {
+    actual suspend fun startGoogleLogin(
+        tokenHandler: GoogleTokenHandler,
+        optionProvider: GoogleOptionProvider,
+    ) {
         optionProvider as OptionProviderAndroid
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
             .addCredentialOption(optionProvider.provideGoogleIdOption())
             .build()
         runCatching {
-            val provideCredentialManager = CredentialManager.create(optionProvider.provideContainer().applicationContext)
+            val provideCredentialManager =
+                CredentialManager.create(optionProvider.provideContainer().applicationContext)
             val result = provideCredentialManager.getCredential(
                 request = request,
                 context = optionProvider.provideContainer()
@@ -45,6 +53,7 @@ actual class GoogleLoginProvider actual constructor() {
                         throw IllegalArgumentException("This is not CustomCredential But type is not TYPE_GOOGLE_ID_TOKEN_CREDENTIAL")
                     }
                 }
+
                 else -> {
                     throw IllegalArgumentException("This is not CustomCredential")
                 }
@@ -59,5 +68,5 @@ actual class GoogleLoginProvider actual constructor() {
 interface OptionProviderAndroid : GoogleOptionProvider {
     override fun provideContainer(): Container
 
-    fun provideGoogleIdOption() : GetGoogleIdOption
+    fun provideGoogleIdOption(): GetGoogleIdOption
 }
