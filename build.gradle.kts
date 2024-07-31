@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.util.Properties
 
 plugins {
@@ -12,9 +13,11 @@ plugins {
     signing
 }
 
+group = "io.github.jmseb3"
 val isSnapshot: String by project
+
 subprojects {
-    if(name.startsWith("hellogin")) {
+    if (name.startsWith("hellogin")) {
         apply(plugin = "org.jetbrains.dokka")
         apply(plugin = "maven-publish")
         apply(plugin = "signing")
@@ -114,6 +117,59 @@ subprojects {
         // TODO: remove after https://youtrack.jetbrains.com/issue/KT-46466 is fixed
         project.tasks.withType(AbstractPublishToMaven::class.java).configureEach {
             dependsOn(project.tasks.withType(Sign::class.java))
+        }
+    }
+}
+
+publishing {
+    fun getExtraString(name: String) = ext[name]?.toString()
+
+    repositories {
+        maven {
+            name = "sonatypeBom"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = gradleLocalProperties(rootDir).getProperty("ossrhUsername")
+                password = gradleLocalProperties(rootDir).getProperty("ossrhPassword")
+            }
+        }
+    }
+    publications {
+
+        create<MavenPublication>("bom") {
+            groupId = "io.github.jmseb3"
+            artifactId = "hellogin-bom"
+            version = "1.0.0"
+
+            // Provide artifacts information requited by Maven Central
+            pom.withXml {
+                val dependenciesNode = asNode().appendNode("dependencyManagement")
+                val dependenciesElement = dependenciesNode.appendNode("dependencies")
+
+                dependenciesElement.appendNode("dependency").apply {
+                    appendNode("groupId", groupId)
+                    appendNode("artifactId", "hellogin-core")
+                    appendNode("version", "1.0.0")
+                }
+
+                dependenciesElement.appendNode("dependency").apply {
+                    appendNode("groupId", groupId)
+                    appendNode("artifactId", "hellogin-core-ui")
+                    appendNode("version", "1.0.0")
+                }
+
+                dependenciesElement.appendNode("dependency").apply {
+                    appendNode("groupId", groupId)
+                    appendNode("artifactId", "hellogin-google")
+                    appendNode("version", "1.0.0")
+                }
+
+                dependenciesElement.appendNode("dependency").apply {
+                    appendNode("groupId", groupId)
+                    appendNode("artifactId", "hellogin-google-ui")
+                    appendNode("version", "1.0.0")
+                }
+            }
         }
     }
 }
