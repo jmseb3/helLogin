@@ -1,5 +1,8 @@
 rootProject.name = "HeLLogin"
 include(":sample:composeApp")
+
+include(":hellogin-bom")
+
 include(":hellogin-core")
 include(":hellogin-google")
 
