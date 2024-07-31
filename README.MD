@@ -65,7 +65,7 @@ how to use this library
 
 ### Google
 
-> don't forget (Google Api console setting)[https://console.cloud.google.com/]!!
+> don't forget [Google Api console setting](https://console.cloud.google.com/)!!
 
 1. plz install first `GoogleOptionProvider`per platform
 
@@ -92,7 +92,7 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
 }
 ~~~
 
-> use `OptionProviderAndroid` because need (`GetGoogleIdOption`)[https://developers.google.com/identity/android-credential-manager/android/reference/kotlin/com/google/android/libraries/identity/googleid/GetGoogleIdOption]
+> use `OptionProviderAndroid` because need [`GetGoogleIdOption`](https://developers.google.com/identity/android-credential-manager/android/reference/kotlin/com/google/android/libraries/identity/googleid/GetGoogleIdOption)
 
 ~~~kotlin
 //iosApp
@@ -127,19 +127,20 @@ fun MainViewController(): UIViewController {
 ~~~
 
 > `requestLogin` need setting GoogleLoginHelper.setTokenHandler()
-> //or
+
+or
 
 ~~~kotlin
     GoogleLoginHelper.requestLoginWithTokenHandler(tokenHandler) //this is suspend function
 ~~~
 
-or if use `io.github.jmseb3:hellogin-google-ui` , GoogleLoginButton()
+or if use `io.github.jmseb3:hellogin-google-ui` , `GoogleLoginButton()`
 
 ~~~kotlin
     GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()
 ~~~
 
-//or
+or
 
 ~~~kotlin
     GoogleLoginButton(tokenResultHandler = googleTokenHandler) // button action is GoogleLoginHelper.requestLoginWithTokenHandler()
