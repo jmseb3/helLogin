@@ -15,96 +15,8 @@ plugins {
 
 val isSnapshot: String by project
 
-// Stub secrets to let the project sync and build without the publication values set up
-ext["signing.keyId"] = null
-ext["signing.password"] = null
-ext["signing.secretKeyRingFile"] = null
-ext["ossrhUsername"] = null
-ext["ossrhPassword"] = null
-
-// Grabbing secrets from local.properties file or from environment variables, which could be used on CI
-val secretPropsFile = project.rootProject.file("local.properties")
-if (secretPropsFile.exists()) {
-    secretPropsFile.reader().use {
-        Properties().apply {
-            load(it)
-        }
-    }.onEach { (name, value) ->
-        ext[name.toString()] = value
-    }
-} else {
-    ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-    ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-    ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
-    ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-    ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
-}
-
-fun getExtraString(name: String) = ext[name]?.toString()
-
 subprojects {
-    if(name == "hellogin-bom") {
-        apply(plugin = "maven-publish")
-        apply(plugin = "signing")
-        this.group = "io.github.jmseb3"
-        this.version = "1.0.0"
-        
-        publishing {
-            repositories {
-                maven {
-                    name = "sonatypeBom"
-                    url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                    credentials {
-                        credentials {
-                            username = getExtraString("ossrhUsername")
-                            password = getExtraString("ossrhPassword")
-                        }
-                    }
-                }
-            }
-
-            publications {
-                create<MavenPublication>("bom") {
-                    groupId = "io.github.jmseb3"
-                    artifactId = "hellogin-bom"
-                    version = "1.0.0"
-
-                    // Provide artifacts information requited by Maven Central
-                    pom.withXml {
-                        val dependenciesNode = asNode().appendNode("dependencyManagement")
-                        val dependenciesElement = dependenciesNode.appendNode("dependencies")
-
-                        dependenciesElement.appendNode("dependency").apply {
-                            appendNode("groupId", groupId)
-                            appendNode("artifactId", "hellogin-core")
-                            appendNode("version", "1.0.0")
-                        }
-
-                        dependenciesElement.appendNode("dependency").apply {
-                            appendNode("groupId", groupId)
-                            appendNode("artifactId", "hellogin-core-ui")
-                            appendNode("version", "1.0.0")
-                        }
-
-                        dependenciesElement.appendNode("dependency").apply {
-                            appendNode("groupId", groupId)
-                            appendNode("artifactId", "hellogin-google")
-                            appendNode("version", "1.0.0")
-                        }
-
-                        dependenciesElement.appendNode("dependency").apply {
-                            appendNode("groupId", groupId)
-                            appendNode("artifactId", "hellogin-google-ui")
-                            appendNode("version", "1.0.0")
-                        }
-                    }
-                }
-            }
-        }
-        signing {
-            sign(publishing.publications)
-        }
-    } else if (name.startsWith("hellogin")) {
+    if (name.startsWith("hellogin") && name != "hellogin-bom") {
         apply(plugin = "org.jetbrains.dokka")
         apply(plugin = "maven-publish")
         apply(plugin = "signing")
@@ -115,6 +27,32 @@ subprojects {
         } else {
             this.version = "1.0.0"
         }
+        // Stub secrets to let the project sync and build without the publication values set up
+        ext["signing.keyId"] = null
+        ext["signing.password"] = null
+        ext["signing.secretKeyRingFile"] = null
+        ext["ossrhUsername"] = null
+        ext["ossrhPassword"] = null
+
+        // Grabbing secrets from local.properties file or from environment variables, which could be used on CI
+        val secretPropsFile = project.rootProject.file("local.properties")
+        if (secretPropsFile.exists()) {
+            secretPropsFile.reader().use {
+                Properties().apply {
+                    load(it)
+                }
+            }.onEach { (name, value) ->
+                ext[name.toString()] = value
+            }
+        } else {
+            ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
+            ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
+            ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
+            ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
+            ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
+        }
+
+        fun getExtraString(name: String) = ext[name]?.toString()
 
         val dokkaHtml by tasks.getting(org.jetbrains.dokka.gradle.DokkaTask::class)
 

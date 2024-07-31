@@ -21,16 +21,18 @@ repositories {
 }
 ```
 
-Then in your shared module add desired dependencies in `commonMain`. Latest version: x.y.z
+Then in your shared module add desired dependencies in `commonMain`. Latest version: ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.jmseb3/hellogin-bom)
 
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation("io.github.jmseb3:hellogin-core:<version>") //core of library
-        implementation("io.github.jmseb3:hellogin-google:<version>") //google login library
+        implementation(platform("io.github.jmseb3:hellogin-bom:<version>")) 
+        
+        implementation("io.github.jmseb3:hellogin-core") //core of library
+        implementation("io.github.jmseb3:hellogin-google") //google login library
 
-        implementation("io.github.jmseb3:hellogin-core-ui:<version>") //core of library for ui 
-        implementation("io.github.jmseb3:hellogin-google-ui:<version>") //google login ui library
+        implementation("io.github.jmseb3:hellogin-core-ui") //core of library for ui 
+        implementation("io.github.jmseb3:hellogin-google-ui") //google login ui library
 
     }
 }
@@ -43,11 +45,12 @@ or use toml
 hellogin = "x.y.z"
 
 [libraries]
-hellogin-core = { module = "io.github.jmseb3:hellogin-core", version.ref = "hellogin" }
-hellogin-google = { module = "io.github.jmseb3:hellogin-google", version.ref = "hellogin" }
+hellogin-bom = { module = "io.github.jmseb3:hellogin-bom", version.ref = "hellogin" }
+hellogin-core = { module = "io.github.jmseb3:hellogin-core"}
+hellogin-google = { module = "io.github.jmseb3:hellogin-google"}
 
-hellogin-core-ui = { module = "io.github.jmseb3:hellogin-core-ui", version.ref = "hellogin" }
-hellogin-google-ui = { module = "io.github.jmseb3:hellogin-google-ui", version.ref = "hellogin" }
+hellogin-core-ui = { module = "io.github.jmseb3:hellogin-core-ui"}
+hellogin-google-ui = { module = "io.github.jmseb3:hellogin-google-ui"}
 
 [bundles]
 hellogin = ["hellogin-core", "hellogin-google", "hellogin-core-ui", "hellogin-google-ui"]
@@ -56,6 +59,7 @@ hellogin = ["hellogin-core", "hellogin-google", "hellogin-core-ui", "hellogin-go
 ```kotlin
 sourceSets {
     commonMain.dependencies {
+        implementation(platform(libs.plugin.hellogin.bom))
         implementation(libs.bundles.hellogin)
     }
 }
