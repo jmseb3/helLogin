@@ -4,11 +4,8 @@ package com.wonddak.hellogin.google
 
 import cocoapods.GoogleSignIn.GIDSignIn
 import cocoapods.GoogleSignIn.GIDSignInResult
+import com.wonddak.hellogin.core.LoginDefaultOptionProvider
 import kotlinx.cinterop.ExperimentalForeignApi
-import platform.UIKit.UIApplication
-import platform.UIKit.UIViewController
-import platform.UIKit.UIWindow
-import platform.UIKit.UIWindowScene
 
 
 actual typealias GoogleResult = GIDSignInResult
@@ -16,7 +13,6 @@ actual typealias GoogleResult = GIDSignInResult
 actual fun GoogleResult.getTokenString(): String? {
     return this.user().idToken()?.tokenString
 }
-actual typealias Container = UIViewController
 
 actual class GoogleLoginProvider actual constructor() {
 
@@ -27,8 +23,10 @@ actual class GoogleLoginProvider actual constructor() {
         tokenHandler: GoogleTokenHandler,
         optionProvider: GoogleOptionProvider,
     ) {
+        val container = LoginDefaultOptionProvider.getContainer()
+
         GIDSignIn.sharedInstance()
-            .signInWithPresentingViewController(presentingViewController = optionProvider.provideContainer()) { result, error ->
+            .signInWithPresentingViewController(presentingViewController = container) { result, error ->
                 if (result == null || error != null) {
                     tokenHandler.onFail(error)
                     return@signInWithPresentingViewController
@@ -36,29 +34,4 @@ actual class GoogleLoginProvider actual constructor() {
                 tokenHandler.onSuccess(result)
             }
     }
-}
-
-interface OptionProviderIos : GoogleOptionProvider {
-    override fun provideContainer(): Container
-}
-
-/**
- * Ios OptionProvider Default
- * This is Provide Top View Controller
- */
-class OptionProviderIosDefault() : OptionProviderIos {
-    override fun provideContainer(): Container {
-        val presentingViewController = ((UIApplication.sharedApplication().connectedScenes()
-            .first() as? UIWindowScene)?.windows() as List<UIWindow?>).first()
-            ?.rootViewController()!!
-        return presentingViewController
-    }
-}
-
-/**
- * @see[GoogleOptionProvider]
- * @see[OptionProviderIos]
- */
-fun GoogleLoginHelper.setDefaultOptionProvider() {
-    this.setOptionProvider(OptionProviderIosDefault())
 }

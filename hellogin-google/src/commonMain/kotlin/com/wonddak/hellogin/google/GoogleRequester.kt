@@ -8,15 +8,12 @@ import com.wonddak.hellogin.core.TokenResultHandler
 expect class GoogleResult
 
 expect fun GoogleResult.getTokenString(): String?
-expect class Container
 
 object GoogleLoginHelper : LoginRequester {
 
     private var provider: GoogleLoginProvider = GoogleLoginProvider()
 
     private var tokenHandler: GoogleTokenHandler? = null
-    private var optionProvider: GoogleOptionProvider? = null
-
     /**
      * setTokenHandler
      * @see[GoogleTokenHandler]
@@ -25,6 +22,7 @@ object GoogleLoginHelper : LoginRequester {
         this.tokenHandler = tokenHandler
     }
 
+    private var optionProvider: GoogleOptionProvider? = null
     /**
      * setOptionProvider
      * @see[GoogleOptionProvider]
@@ -78,6 +76,4 @@ interface GoogleTokenHandler : TokenResultHandler<GoogleResult> {
 /**
  * Option Provider Default Interface
  */
-interface GoogleOptionProvider {
-    fun provideContainer(): Container
-}
+interface GoogleOptionProvider

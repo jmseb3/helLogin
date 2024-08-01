@@ -1,22 +1,18 @@
 package com.wonddak.hellogin.google
 
-import android.app.Activity
-import android.content.Context
-import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.wonddak.hellogin.core.Error
+import com.wonddak.hellogin.core.LoginDefaultOptionProvider
 
 actual typealias GoogleResult = GoogleIdTokenCredential
 
 actual fun GoogleResult.getTokenString(): String? {
     return this.idToken
 }
-actual typealias Container = Activity
 
 /**
  * set OptionProviderAndroid
@@ -34,15 +30,16 @@ actual class GoogleLoginProvider actual constructor() {
         optionProvider: GoogleOptionProvider,
     ) {
         optionProvider as OptionProviderAndroid
+        val container = LoginDefaultOptionProvider.getContainer()
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
             .addCredentialOption(optionProvider.provideGoogleIdOption())
             .build()
         runCatching {
             val provideCredentialManager =
-                CredentialManager.create(optionProvider.provideContainer().applicationContext)
+                CredentialManager.create(container.applicationContext)
             val result = provideCredentialManager.getCredential(
                 request = request,
-                context = optionProvider.provideContainer()
+                context = container
             )
             when (val credential = result.credential) {
                 is CustomCredential -> {
@@ -72,7 +69,5 @@ actual class GoogleLoginProvider actual constructor() {
 }
 
 interface OptionProviderAndroid : GoogleOptionProvider {
-    override fun provideContainer(): Container
-
     fun provideGoogleIdOption(): GetGoogleIdOption
 }

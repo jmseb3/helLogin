@@ -46,36 +46,33 @@ kotlin {
         homepage = "empty"
         ios.deploymentTarget = "13.0"
         framework {
-            baseName = "helloginCoreNetwork"
+            baseName = "helloginGithub"
             isStatic = true
         }
     }
 
     sourceSets {
-        commonMain.dependencies {
-            api(compose.runtime)
-            api(compose.foundation)
-            api(libs.ktor.client.core)
-            api(libs.ktor.client.auth)
-            api(libs.ktor.client.negotiation)
-            api(libs.ktor.serialization.json)
+        all {
+            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
         }
+        commonMain.dependencies {
+            api(project(":hellogin-core"))
+            api(project(":hellogin-core-network"))
+        }
+
         commonTest.dependencies {
             implementation(kotlin("test"))
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
         androidMain.dependencies {
-            api(libs.ktor.client.okhttp)
-        }
-        iosMain.dependencies {
-            api(libs.ktor.client.darwin)
+            implementation("androidx.browser:browser:1.8.0")
         }
     }
 }
 
 android {
-    namespace = "com.wonddak.hellogin.core"
+    namespace = "com.wonddak.hellogin.github"
     compileSdk = 34
 
     defaultConfig {
