@@ -4,18 +4,18 @@ This is Compose Multiplatform auth library
 
 |              | Android                                            | IOS                                        |
 |--------------|----------------------------------------------------|--------------------------------------------|
-| google       | ![android](./screenshot/android_main.jpg)          | ![iOS](./screenshot/ios_main.png)          |
+| main         | ![android](./screenshot/android_main.jpg)          | ![iOS](./screenshot/ios_main.png)          |
 | google-Login | ![androidL](./screenshot/android_google_login.jpg) | ![iOSL](./screenshot/ios_google_login.png) |
 
 ## Features
 
 - ✅ Google Login
 - ✅ Github Login
--
 
 ## To be added
 
 - ❎ Apple Login
+- ❎ Naver Login
 
 ## Installation
 
@@ -37,16 +37,14 @@ sourceSets {
         implementation(platform("io.github.jmseb3:hellogin-bom:<version>"))
 
         implementation("io.github.jmseb3:hellogin-core") //core of library
-        implementation("io.github.jmseb3:hellogin-core-ui") //core of library for ui
-        implementation("io.github.jmseb3:hellogin-core-network") //core of library
+        implementation("io.github.jmseb3:hellogin-core-ui") //core ui of library 
+        implementation("io.github.jmseb3:hellogin-core-network") //core network of library  (for github)
 
         implementation("io.github.jmseb3:hellogin-google") //google login library
         implementation("io.github.jmseb3:hellogin-github") //github login library
 
         implementation("io.github.jmseb3:hellogin-google-ui") //google login ui library
         implementation("io.github.jmseb3:hellogin-github-ui") //github login ui library
-
-
     }
 }
 ```
@@ -59,6 +57,7 @@ hellogin = "x.y.z"
 
 [libraries]
 hellogin-bom = { module = "io.github.jmseb3:hellogin-bom", version.ref = "hellogin" }
+
 hellogin-core = { module = "io.github.jmseb3:hellogin-core" }
 hellogin-core-network = { module = "io.github.jmseb3:hellogin-core-network" }
 hellogin-core-ui = { module = "io.github.jmseb3:hellogin-core-ui" }
@@ -90,7 +89,7 @@ sourceSets {
 how to use this library
 
 ### Common
-Common Setting Per Platform
+Common Setting Per Platform setContainer!!
 
 #### Android
 use `LoginDefaultOptionProvider.setContainer(this)` on Activity onCreate
@@ -118,9 +117,11 @@ fun MainViewController(): UIViewController {
 ### Google
 > don't forget [Google Api console setting](https://console.cloud.google.com/)!!
 
+> also default setting look [Android](https://developers.google.com/identity/android-credential-manager)/ [IOS](https://developers.google.com/identity/sign-in/ios/start-integrating)
+
 1. plz install first `GoogleOptionProvider`per platform
 
-> also IOS need `GoogeSigin` SPM or pods on Your Project
+> also IOS need [`GoogeSigin`](https://github.com/google/GoogleSignIn-iOS) SPM or pods on Your Project
 
 #### Android
 
@@ -185,7 +186,7 @@ or
 ### Github
 make [Github OAuth Apps](https://github.com/settings/developers) and don't forget your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
 
-1. plz install githubProvider on CommonMain
+1. Please install the GitHub provider in the commonMain module (or separately for each platform if needed).
 ~~~kotlin
 internal class GitHubProvider : GithubOptionProvider {
     companion object {
