@@ -1,4 +1,4 @@
-package com.wonddak.hellogin.google
+package com.wonddak.hellogin.github
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -18,19 +18,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
 import com.wonddak.hellogin.core.getFont
-import io.github.jmseb3.hellogin_google_ui.generated.resources.Res
-import io.github.jmseb3.hellogin_google_ui.generated.resources.ic_google
+import io.github.jmseb3.hellogin_github_ui.generated.resources.Res
+import io.github.jmseb3.hellogin_github_ui.generated.resources.github_mark
+import io.github.jmseb3.hellogin_github_ui.generated.resources.github_mark_white
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
 
 /**
- * GoogleLoginButton
+ * GithubLoginButton
  * @param[modifier] Modifier
  * @param[type] ButtonType
  * @param[mode] ButtonTheme
@@ -40,16 +45,16 @@ import org.jetbrains.compose.resources.painterResource
  *
  * @see[ButtonType] type info
  * @see[ButtonTheme] theme info
- * @see[GoogleTokenHandler] GoogleTokenHandler
+ * @see[GithubTokenHandler] GithubTokenHandler
  */
 @Composable
-fun GoogleLoginButton(
+fun GithubLoginButton(
     modifier: Modifier = Modifier,
-    type : ButtonType = ButtonType.WithText("Sign in with Google"),
+    type : ButtonType = ButtonType.WithText("Sign in with GitHub"),
     mode : ButtonTheme = ButtonTheme.Light,
     shape: Shape = ButtonDefaults.shape,
     fontSize: TextUnit = 14.sp,
-    tokenResultHandler: GoogleTokenHandler? = null
+    tokenResultHandler: GithubTokenHandler? = null
 ) {
     val scope = rememberCoroutineScope()
     if (type is ButtonType.WithText) {
@@ -61,9 +66,9 @@ fun GoogleLoginButton(
             onClick = {
                 scope.launch {
                     if (tokenResultHandler == null) {
-                        GoogleLoginHelper.requestLogin()
+                        GithubLoginHelper.requestLogin()
                     } else {
-                        GoogleLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
+                        GithubLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
                     }
                 }
             },
@@ -72,7 +77,7 @@ fun GoogleLoginButton(
             border = getBorderStroke(mode),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                GoogleIcon()
+                GoogleIcon(mode)
                 Spacer(modifier = Modifier.width(iconTextPadding))
                 Text(
                     text = type.text,
@@ -89,9 +94,9 @@ fun GoogleLoginButton(
             onClick = {
                 scope.launch {
                     if (tokenResultHandler == null) {
-                        GoogleLoginHelper.requestLogin()
+                        GithubLoginHelper.requestLogin()
                     } else {
-                        GoogleLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
+                        GithubLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
                     }
                 }
             },
@@ -99,18 +104,24 @@ fun GoogleLoginButton(
             colors = getButtonColor(mode),
             border = getBorderStroke(mode),
         ) {
-            GoogleIcon()
+            GoogleIcon(mode)
         }
     }
 
 }
 
 @Composable
-internal fun GoogleIcon() {
+internal fun GoogleIcon(mode: ButtonTheme) {
+    val res = when (mode) {
+        ButtonTheme.Light -> Res.drawable.github_mark
+
+        ButtonTheme.Dark -> Res.drawable.github_mark_white
+
+    }
     Image(
         modifier = Modifier.size(20.dp),
-        painter = painterResource(Res.drawable.ic_google),
-        contentDescription = "googleIcon"
+        painter = painterResource(res),
+        contentDescription = "githubIcon"
     )
 }
 

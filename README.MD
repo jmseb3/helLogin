@@ -35,16 +35,12 @@ version: ![Maven Central Version](https://img.shields.io/maven-central/v/io.gith
 sourceSets {
     commonMain.dependencies {
         implementation(platform("io.github.jmseb3:hellogin-bom:<version>"))
-
-        implementation("io.github.jmseb3:hellogin-core") //core of library
-        implementation("io.github.jmseb3:hellogin-core-ui") //core ui of library 
-        implementation("io.github.jmseb3:hellogin-core-network") //core network of library  (for github)
-
+        
         implementation("io.github.jmseb3:hellogin-google") //google login library
         implementation("io.github.jmseb3:hellogin-github") //github login library
 
-        implementation("io.github.jmseb3:hellogin-google-ui") //google login ui library
-        implementation("io.github.jmseb3:hellogin-github-ui") //github login ui library
+        implementation("io.github.jmseb3:hellogin-google-ui") //google login with ui library
+        implementation("io.github.jmseb3:hellogin-github-ui") //github login with ui library
     }
 }
 ```
@@ -58,10 +54,6 @@ hellogin = "x.y.z"
 [libraries]
 hellogin-bom = { module = "io.github.jmseb3:hellogin-bom", version.ref = "hellogin" }
 
-hellogin-core = { module = "io.github.jmseb3:hellogin-core" }
-hellogin-core-network = { module = "io.github.jmseb3:hellogin-core-network" }
-hellogin-core-ui = { module = "io.github.jmseb3:hellogin-core-ui" }
-
 hellogin-google = { module = "io.github.jmseb3:hellogin-google" }
 hellogin-github = { module = "io.github.jmseb3:hellogin-github" }
 
@@ -69,7 +61,7 @@ hellogin-google-ui = { module = "io.github.jmseb3:hellogin-google-ui" }
 hellogin-github-ui = { module = "io.github.jmseb3:hellogin-github-ui" }
 
 [bundles]
-hellogin = ["hellogin-core", "hellogin-core-network", "hellogin-core-ui", "hellogin-google", "hellogin-google-ui", "hellogin-github", "hellogin-github-ui"]
+hellogin = ["hellogin-google", "hellogin-google-ui", "hellogin-github", "hellogin-github-ui"]
 
 ~~~
 

@@ -1,4 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import com.android.build.api.dsl.ManagedVirtualDevice
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
@@ -44,16 +45,20 @@ kotlin {
         homepage = "empty"
         ios.deploymentTarget = "13.0"
         framework {
-            baseName = "helloginCoreUi"
+            baseName = "helloginGithubUi"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            api(compose.runtime)
-            api(compose.foundation)
-            api(compose.components.resources)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            api(project(":hellogin-github"))
+            api(project(":hellogin-core-ui"))
         }
 
         commonTest.dependencies {
@@ -65,7 +70,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.wonddak.hellogin.core"
+    namespace = "com.wonddak.hellogin.github"
     compileSdk = 34
 
     defaultConfig {

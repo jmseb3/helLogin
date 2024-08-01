@@ -1,24 +1,29 @@
 package com.wonddak.hellogin.github
 
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import kotlinx.coroutines.launch
+import com.wonddak.hellogin.core.ButtonTheme
+import com.wonddak.hellogin.core.ButtonType
 
 @Composable
 internal fun GithubButtonExample(
     callBack: GithubResultCallBack = GithubResultCallBack(),
 ) {
-    val scope = rememberCoroutineScope()
-
-    Button(
-        onClick = {
-            scope.launch {
-                GithubLoginHelper.requestLoginWithTokenHandler(callBack)
-            }
-        }
-    ) {
-        Text("Github")
-    }
+    GithubLoginButton(
+        type = ButtonType.IconOnly,
+        mode = ButtonTheme.Light,
+        tokenResultHandler = callBack
+    )
+    GithubLoginButton(
+        type = ButtonType.IconOnly,
+        mode = ButtonTheme.Dark,
+        tokenResultHandler = callBack
+    )
+    GithubLoginButton(
+        mode = ButtonTheme.Light,
+        tokenResultHandler = callBack
+    )
+    GithubLoginButton(
+        mode = ButtonTheme.Dark,
+        tokenResultHandler = callBack
+    )
 }
