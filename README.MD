@@ -2,9 +2,10 @@
 
 This is Compose Multiplatform auth library
 
-|   | Android | IOS |
-|---|---------|-----|
-| google | 1 | 2 |
+|              | Android                                            | IOS                                        |
+|--------------|----------------------------------------------------|--------------------------------------------|
+| google       | ![android](./screenshot/android_main.jpg)          | ![iOS](./screenshot/ios_main.png)          |
+| google-Login | ![androidL](./screenshot/android_google_login.jpg) | ![iOSL](./screenshot/ios_google_login.png) |
 
 ## Features
 
