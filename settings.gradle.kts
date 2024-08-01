@@ -4,6 +4,7 @@ include(":sample:composeApp")
 include(":hellogin-bom")
 
 include(":hellogin-core")
+include(":hellogin-core-network")
 include(":hellogin-google")
 
 include(":hellogin-core-ui")
