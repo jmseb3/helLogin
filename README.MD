@@ -2,10 +2,14 @@
 
 This is Compose Multiplatform auth library
 
+|   | Android | IOS |
+|---|---------|-----|
+| google | 1 | 2 |
+
 ## Features
 
 - ✅ Google Login
-- 
+
 ## To be added
 - ❎ Apple Login
 - ❎ Github Login
@@ -77,8 +81,8 @@ how to use this library
 
 1. plz install first `GoogleOptionProvider`per platform
 
+#### Android
 ~~~kotlin
-//androidApp
 class AppActivity : ComponentActivity(), OptionProviderAndroid {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,8 +106,8 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
 
 > use `OptionProviderAndroid` because need [`GetGoogleIdOption`](https://developers.google.com/identity/android-credential-manager/android/reference/kotlin/com/google/android/libraries/identity/googleid/GetGoogleIdOption)
 
+#### IOS
 ~~~kotlin
-//iosApp
 fun MainViewController(): UIViewController {
     val provider = object : GoogleOptionProvider {
         override fun provideContainer(): Container {
@@ -119,7 +123,6 @@ fun MainViewController(): UIViewController {
 ~~~
 or
 ~~~kotlin
-//iosApp
 fun MainViewController(): UIViewController {
     GoogleLoginHelper.setDefaultOptionProvider()
     return ComposeUIViewController { App() }
@@ -130,6 +133,7 @@ fun MainViewController(): UIViewController {
 
 2. launch `GoogleLoginHelper`
 
+#### No UI
 ~~~kotlin
    GoogleLoginHelper.requestLogin() //this is suspend function
 ~~~
@@ -142,7 +146,8 @@ or
     GoogleLoginHelper.requestLoginWithTokenHandler(tokenHandler) //this is suspend function
 ~~~
 
-or if use `io.github.jmseb3:hellogin-google-ui` , `GoogleLoginButton()`
+#### Use UI
+if use `io.github.jmseb3:hellogin-google-ui` , `GoogleLoginButton()`
 
 ~~~kotlin
     GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()
