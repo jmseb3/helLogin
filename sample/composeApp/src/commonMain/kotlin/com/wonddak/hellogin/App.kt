@@ -9,6 +9,15 @@ import androidx.compose.ui.unit.dp
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
 import com.wonddak.hellogin.core.Error
+import com.wonddak.hellogin.github.GitHubProvider
+import com.wonddak.hellogin.github.GithubButtonExample
+import com.wonddak.hellogin.github.GithubLoginHelper
+import com.wonddak.hellogin.github.GithubOptionProvider
+import com.wonddak.hellogin.github.GithubTokenHandler
+import com.wonddak.hellogin.github.network.model.ClientData
+import com.wonddak.hellogin.github.network.model.CodeRequestData
+import com.wonddak.hellogin.github.network.model.GithubResult
+import com.wonddak.hellogin.google.GoogleButtonExample
 import com.wonddak.hellogin.google.GoogleLoginButton
 import com.wonddak.hellogin.google.GoogleLoginHelper
 import com.wonddak.hellogin.google.GoogleResult
@@ -16,9 +25,13 @@ import com.wonddak.hellogin.google.GoogleTokenHandler
 import com.wonddak.hellogin.google.getTokenString
 import com.wonddak.hellogin.theme.AppTheme
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @Composable
 internal fun App() = AppTheme {
+    LaunchedEffect(true) {
+        GithubLoginHelper.setOptionProvider(GitHubProvider())
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -28,40 +41,6 @@ internal fun App() = AppTheme {
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         GoogleButtonExample()
+        GithubButtonExample()
     }
-}
-
-internal class GoogleResultCallBack : GoogleTokenHandler {
-    override fun onSuccess(token: GoogleResult) {
-        super.onSuccess(token)
-        println("onSuccess with $token >> ${token.getTokenString()}")
-    }
-
-    override fun onFail(error: Error?) {
-        super.onFail(error)
-        println("onFail with $error}")
-    }
-}
-
-@Composable
-internal fun GoogleButtonExample() {
-    val callBack = GoogleResultCallBack()
-    GoogleLoginButton(
-        type = ButtonType.IconOnly,
-        mode = ButtonTheme.Light,
-        tokenResultHandler = callBack
-    )
-    GoogleLoginButton(
-        type = ButtonType.IconOnly,
-        mode = ButtonTheme.Dark,
-        tokenResultHandler = callBack
-    )
-    GoogleLoginButton(
-        mode = ButtonTheme.Light,
-        tokenResultHandler = callBack
-    )
-    GoogleLoginButton(
-        mode = ButtonTheme.Dark,
-        tokenResultHandler = callBack
-    )
 }
