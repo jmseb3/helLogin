@@ -83,13 +83,42 @@ how to use this library
 ### Common
 Common Setting Per Platform setContainer!!
 
+init `TokenResultHandler` use by `HelloginDefaultProvider.setAnyTokenHandler()`
+~~~kotlin
+internal class AnyTokenCallBack : TokenResultHandler {
+    override fun onSuccess(token: Any) {
+        if (token is GoogleResult) {
+            println("Google onSuccess with $token >> ${token.getTokenString()}")
+        } else if (token is GithubResult) {
+            println("Github onSuccess with $token >> ${token.accessToken}")
+        }
+        // handle token...
+    }
+
+    override fun onFail(error: Error?) {
+        println("onFail with $error}")
+    }
+}
+~~~
+- [GoogleResult](./hellogin-google/src/commonMain/kotlin/com/wonddak/hellogin/google/GoogleRequester.kt)
+- [GithubResult](./hellogin-github/src/commonMain/kotlin/com/wonddak/hellogin/github/network/model/GithubResult.kt)
+~~~kotlin
+@Composable
+internal fun App() = AppTheme {
+    LaunchedEffect(true) {
+        HelloginDefaultProvider.setAnyTokenHandler(AnyTokenCallBack())
+    }
+    ...
+}
+~~~
+
 #### Android
-use `LoginDefaultOptionProvider.setContainer(this)` on Activity onCreate
+use `HelloginDefaultProvider.setContainer(this)` on Activity onCreate
 ~~~kotlin
 class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LoginDefaultOptionProvider.setContainer(this)
+        HelloginDefaultProvider.setContainer(this)
         enableEdgeToEdge()
         setContent { App() }
     }
@@ -97,11 +126,11 @@ class AppActivity : ComponentActivity() {
 ~~~
 
 #### IOS
-use `LoginDefaultOptionProvider.setContainer(this)` on MainViewController create
+use `HelloginDefaultProvider.setContainer(this)` on MainViewController create
 ~~~kotlin
 fun MainViewController(): UIViewController {
     return ComposeUIViewController { App() }.also {
-        LoginDefaultOptionProvider.setContainer(it)
+        HelloginDefaultProvider.setContainer(it)
     }
 }
 ~~~
@@ -151,12 +180,6 @@ no need any setting for google Login
 
 > `requestLogin` need setting GoogleLoginHelper.setTokenHandler()
 
-or
-
-~~~kotlin
-    GoogleLoginHelper.requestLoginWithTokenHandler(tokenHandler) //this is suspend function
-~~~
-
 #### Use UI
 
 if use `io.github.jmseb3:hellogin-google-ui` , `GoogleLoginButton()`
@@ -164,16 +187,6 @@ if use `io.github.jmseb3:hellogin-google-ui` , `GoogleLoginButton()`
 ~~~kotlin
     GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()
 ~~~
-
-or
-
-~~~kotlin
-    GoogleLoginButton(tokenResultHandler = googleTokenHandler) // button action is GoogleLoginHelper.requestLoginWithTokenHandler()
-~~~
-
-3. you can receive result by `GoogleTokenHandler`, `onSuccess` or `onFail`
-
-> use `GoogleResult.getTokenString()` get tokenString on Success
 
 ### Github
 make [Github OAuth Apps](https://github.com/settings/developers) and don't forget your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
@@ -222,14 +235,6 @@ internal fun App() = AppTheme {
    GithubLoginHelper.requestLogin() //this is suspend function
 ~~~
 
-> `requestLogin` need setting GithubLoginHelper.setTokenHandler()
-
-or
-
-~~~kotlin
-    GithubLoginHelper.requestLoginWithTokenHandler(tokenHandler) //this is suspend function
-~~~
-
 #### Use UI
 
 if use `io.github.jmseb3:hellogin-github-ui` , `GithubLoginButton()`
@@ -237,13 +242,3 @@ if use `io.github.jmseb3:hellogin-github-ui` , `GithubLoginButton()`
 ~~~kotlin
     GithubLoginButton() // button action is GithubLoginHelper.requestLogin()
 ~~~
-
-or
-
-~~~kotlin
-    GithubLoginButton(tokenResultHandler = githubTokenHandler) // button action is GithubLoginHelper.requestLoginWithTokenHandler()
-~~~
-
-3. you can receive result by `GithubTokenHandler`, `onSuccess` or `onFail`
-
-> use `GithubResult.accessToken` get accessToken on Success
