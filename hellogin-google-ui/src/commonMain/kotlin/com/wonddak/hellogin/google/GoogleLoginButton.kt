@@ -40,7 +40,6 @@ import org.jetbrains.compose.resources.painterResource
  *
  * @see[ButtonType] type info
  * @see[ButtonTheme] theme info
- * @see[GoogleTokenHandler] GoogleTokenHandler
  */
 @Composable
 fun GoogleLoginButton(
@@ -48,8 +47,7 @@ fun GoogleLoginButton(
     type : ButtonType = ButtonType.WithText("Sign in with Google"),
     mode : ButtonTheme = ButtonTheme.Light,
     shape: Shape = ButtonDefaults.shape,
-    fontSize: TextUnit = 14.sp,
-    tokenResultHandler: GoogleTokenHandler? = null
+    fontSize: TextUnit = 14.sp
 ) {
     val scope = rememberCoroutineScope()
     if (type is ButtonType.WithText) {
@@ -60,11 +58,7 @@ fun GoogleLoginButton(
             contentPadding = PaddingValues(horizontal = horizontalPadding),
             onClick = {
                 scope.launch {
-                    if (tokenResultHandler == null) {
-                        GoogleLoginHelper.requestLogin()
-                    } else {
-                        GoogleLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
-                    }
+                    GoogleLoginHelper.requestLogin()
                 }
             },
             shape = shape,
@@ -88,11 +82,7 @@ fun GoogleLoginButton(
             contentPadding = PaddingValues(0.dp),
             onClick = {
                 scope.launch {
-                    if (tokenResultHandler == null) {
-                        GoogleLoginHelper.requestLogin()
-                    } else {
-                        GoogleLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
-                    }
+                    GoogleLoginHelper.requestLogin()
                 }
             },
             shape = shape,

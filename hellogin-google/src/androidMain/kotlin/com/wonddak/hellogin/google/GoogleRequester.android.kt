@@ -6,7 +6,7 @@ import androidx.credentials.GetCredentialRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.wonddak.hellogin.core.LoginDefaultOptionProvider
+import com.wonddak.hellogin.core.HelloginDefaultProvider
 
 actual typealias GoogleResult = GoogleIdTokenCredential
 
@@ -26,11 +26,13 @@ actual class GoogleLoginProvider actual constructor() {
      * Start Request For Google Login
      */
     actual suspend fun startGoogleLogin(
-        tokenHandler: GoogleTokenHandler,
         optionProvider: GoogleOptionProvider,
     ) {
         optionProvider as OptionProviderAndroid
-        val container = LoginDefaultOptionProvider.getContainer()
+
+        val container = HelloginDefaultProvider.getContainer()
+        val tokenHandler = HelloginDefaultProvider.getAnyTokenHandler()
+
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
             .addCredentialOption(optionProvider.provideGoogleIdOption())
             .build()

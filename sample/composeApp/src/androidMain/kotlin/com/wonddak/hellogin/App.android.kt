@@ -3,22 +3,14 @@ package com.wonddak.hellogin
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.wonddak.hellogin.core.Container
-import com.wonddak.hellogin.core.LoginDefaultOptionProvider
+import com.wonddak.hellogin.core.HelloginDefaultProvider
 import com.wonddak.hellogin.github.GithubLoginHelper
-import com.wonddak.hellogin.github.GithubOptionProvider
-import com.wonddak.hellogin.github.checkGithubAccessToken
-import com.wonddak.hellogin.github.network.model.AuthRequestData
-import com.wonddak.hellogin.github.network.model.ClientData
-import com.wonddak.hellogin.github.network.model.CodeRequestData
 import com.wonddak.hellogin.google.GoogleLoginHelper
 import com.wonddak.hellogin.google.OptionProviderAndroid
-import com.wonddak.hellogin.google.setOptionProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,7 +29,7 @@ class AndroidApp : Application() {
 class AppActivity : ComponentActivity(), OptionProviderAndroid {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LoginDefaultOptionProvider.setContainer(this)
+        HelloginDefaultProvider.setContainer(this)
         GoogleLoginHelper.setOptionProvider(this)
         enableEdgeToEdge()
         setContent { App() }

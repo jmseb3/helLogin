@@ -1,27 +1,17 @@
 package com.wonddak.hellogin.github
 
-import com.wonddak.hellogin.core.Container
 import com.wonddak.hellogin.core.Error
+import com.wonddak.hellogin.core.HelloginDefaultProvider
 import com.wonddak.hellogin.core.LoginRequester
-import com.wonddak.hellogin.core.TokenResultHandler
 import com.wonddak.hellogin.github.network.model.AuthRequestData
 import com.wonddak.hellogin.github.network.model.CodeRequestData
 import com.wonddak.hellogin.github.network.GithubClient
 import com.wonddak.hellogin.github.network.model.ClientData
 import com.wonddak.hellogin.github.network.model.GithubResult
 
-object GithubLoginHelper : LoginRequester {
+object GithubLoginHelper : LoginRequester<GithubResult> {
     private var provider: GithubLoginProvider = GithubLoginProvider()
     private var client: GithubClient = GithubClient()
-    private var tokenHandler: GithubTokenHandler? = null
-
-    /**
-     * setTokenHandler
-     */
-    fun setTokenHandler(tokenHandler: GithubTokenHandler) {
-        this.tokenHandler = tokenHandler
-    }
-
     private var optionProvider: GithubOptionProvider? = null
 
     /**
@@ -39,29 +29,14 @@ object GithubLoginHelper : LoginRequester {
         provider.startGithubLogin(optionProvider!!)
     }
 
-    suspend fun requestLoginWithTokenHandler(tokenHandler: GithubTokenHandler) {
-        setTokenHandler(tokenHandler)
-        this.requestLogin()
-    }
-
     suspend fun requestAuth(code:String) {
-        require(tokenHandler != null) { "tokenHandler not init" }
+        val tokenHandler = HelloginDefaultProvider.getAnyTokenHandler()
         client.requestAccessToken(AuthRequestData(optionProvider!!.provideClientData(),code))
             .onSuccess {
-                tokenHandler!!.onSuccess(it)
+                tokenHandler.onSuccess(it)
             }.onFailure {
-                tokenHandler!!.onFail(it as Error)
+                tokenHandler.onFail(it as Error)
             }
-    }
-}
-
-interface GithubTokenHandler : TokenResultHandler<GithubResult> {
-    override fun onSuccess(token: GithubResult) {
-
-    }
-
-    override fun onFail(error: Error?) {
-
     }
 }
 

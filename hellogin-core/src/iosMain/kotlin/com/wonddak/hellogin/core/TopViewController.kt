@@ -15,5 +15,5 @@ fun topViewController(): Container {
 
 @ExperimentalUnitApi
 fun setDefaultTopController() {
-    LoginDefaultOptionProvider.setContainer(topViewController())
+    HelloginDefaultProvider.setContainer(topViewController())
 }

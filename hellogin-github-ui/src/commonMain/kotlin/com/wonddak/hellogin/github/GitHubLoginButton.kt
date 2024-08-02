@@ -41,11 +41,9 @@ import org.jetbrains.compose.resources.painterResource
  * @param[mode] ButtonTheme
  * @param[shape] shape of Button
  * @param[fontSize] size of text
- * @param[tokenResultHandler] if not null, change tokenResultHandler When startLogin
  *
  * @see[ButtonType] type info
  * @see[ButtonTheme] theme info
- * @see[GithubTokenHandler] GithubTokenHandler
  */
 @Composable
 fun GithubLoginButton(
@@ -54,7 +52,6 @@ fun GithubLoginButton(
     mode : ButtonTheme = ButtonTheme.Light,
     shape: Shape = ButtonDefaults.shape,
     fontSize: TextUnit = 14.sp,
-    tokenResultHandler: GithubTokenHandler? = null
 ) {
     val scope = rememberCoroutineScope()
     if (type is ButtonType.WithText) {
@@ -65,11 +62,7 @@ fun GithubLoginButton(
             contentPadding = PaddingValues(horizontal = horizontalPadding),
             onClick = {
                 scope.launch {
-                    if (tokenResultHandler == null) {
-                        GithubLoginHelper.requestLogin()
-                    } else {
-                        GithubLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
-                    }
+                    GithubLoginHelper.requestLogin()
                 }
             },
             shape = shape,
@@ -93,11 +86,7 @@ fun GithubLoginButton(
             contentPadding = PaddingValues(0.dp),
             onClick = {
                 scope.launch {
-                    if (tokenResultHandler == null) {
-                        GithubLoginHelper.requestLogin()
-                    } else {
-                        GithubLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
-                    }
+                    GithubLoginHelper.requestLogin()
                 }
             },
             shape = shape,
