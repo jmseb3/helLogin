@@ -2,9 +2,10 @@
 
 This is Compose Multiplatform auth library
 
-|              | Android                                            | IOS                                        |
-|--------------|----------------------------------------------------|--------------------------------------------|
-| google-Login | ![androidL](./screenshot/android_google_login.jpg) | ![iOSL](./screenshot/ios_google_login.png) |
+|              | Android                                                 | IOS                                             |
+|--------------|---------------------------------------------------------|-------------------------------------------------|
+| google-Login | ![androidGoogle](./screenshot/android_google_login.jpg) | ![iOSGoogle](./screenshot/ios_google_login.png) |
+| github-Login | ![androidGithub]()                                      | ![iOSGithub]()                                  |
 
 ## Features
 
@@ -34,7 +35,7 @@ version: ![Maven Central Version](https://img.shields.io/maven-central/v/io.gith
 sourceSets {
     commonMain.dependencies {
         implementation(platform("io.github.jmseb3:hellogin-bom:<version>"))
-        
+
         implementation("io.github.jmseb3:hellogin-google") //google login library
         implementation("io.github.jmseb3:hellogin-github") //github login library
 
@@ -80,9 +81,11 @@ sourceSets {
 how to use this library
 
 ### Common
+
 Common Setting Per Platform setContainer!!
 
-init `TokenResultHandler` use by `HelloginDefaultProvider.setAnyTokenHandler()`
+init `TokenResultHandler` use by `HelloginDefaultProvider.setAnyTokenHandler()` for `(platform)Type`
+
 ~~~kotlin
 internal class AnyTokenCallBack : TokenResultHandler {
     override fun onSuccess(token: Any) {
@@ -99,8 +102,10 @@ internal class AnyTokenCallBack : TokenResultHandler {
     }
 }
 ~~~
+
 - [GoogleResult](./hellogin-google/src/commonMain/kotlin/com/wonddak/hellogin/google/GoogleRequester.kt)
 - [GithubResult](./hellogin-github/src/commonMain/kotlin/com/wonddak/hellogin/github/network/model/GithubResult.kt)
+
 ~~~kotlin
 @Composable
 internal fun App() = AppTheme {
@@ -112,7 +117,9 @@ internal fun App() = AppTheme {
 ~~~
 
 #### Android
+
 use `HelloginDefaultProvider.setContainer(this)` on Activity onCreate
+
 ~~~kotlin
 class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,7 +132,9 @@ class AppActivity : ComponentActivity() {
 ~~~
 
 #### IOS
+
 use `HelloginDefaultProvider.setContainer(this)` on MainViewController create
+
 ~~~kotlin
 fun MainViewController(): UIViewController {
     return ComposeUIViewController { App() }.also {
@@ -135,13 +144,16 @@ fun MainViewController(): UIViewController {
 ~~~
 
 ### Google
+
 > don't forget [Google Api console setting](https://console.cloud.google.com/)!!
 
-> also default setting look [Android](https://developers.google.com/identity/android-credential-manager)/ [IOS](https://developers.google.com/identity/sign-in/ios/start-integrating)
+> also default setting
+> look [Android](https://developers.google.com/identity/android-credential-manager)/ [IOS](https://developers.google.com/identity/sign-in/ios/start-integrating)
 
 1. plz install first `GoogleOptionProvider`per platform
 
-> also IOS need [`GoogeSigin`](https://github.com/google/GoogleSignIn-iOS) SPM or pods on Your Project
+> also IOS need [`GoogeSigin`](https://github.com/google/GoogleSignIn-iOS) SPM or pods on Your
+> Project
 
 #### Android
 
@@ -159,11 +171,12 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
             .setServerClientId("WEB_CLIENT_ID")
             .build()
     }
-    
+
 }
 ~~~
 
-> use `OptionProviderAndroid` because need [`GetGoogleIdOption`](https://developers.google.com/identity/android-credential-manager/android/reference/kotlin/com/google/android/libraries/identity/googleid/GetGoogleIdOption)
+> use `OptionProviderAndroid` because
+> need [`GetGoogleIdOption`](https://developers.google.com/identity/android-credential-manager/android/reference/kotlin/com/google/android/libraries/identity/googleid/GetGoogleIdOption)
 
 #### IOS
 
@@ -188,9 +201,37 @@ if use `io.github.jmseb3:hellogin-google-ui` , `GoogleLoginButton()`
 ~~~
 
 ### Github
-make [Github OAuth Apps](https://github.com/settings/developers) and don't forget your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
 
-1. Please install the GitHub provider in the commonMain module (or separately for each platform if needed).
+make [Github OAuth Apps](https://github.com/settings/developers) and don't forget
+your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
+
+> also android need scheme setting .. if callback is `hellogin://login` then
+~~~xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+   
+    <application>
+        <activity>
+            ...
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="login"
+                    android:scheme="hellogin"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+~~~
+
+1. Please install the GitHub provider in the commonMain module (or separately for each platform if
+   needed).
+
 ~~~kotlin
 internal class GitHubProvider : GithubOptionProvider {
     companion object {
@@ -216,6 +257,7 @@ internal class GitHubProvider : GithubOptionProvider {
     }
 }
 ~~~
+
 ~~~kotlin
 @Composable
 internal fun App() = AppTheme {
