@@ -18,20 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
-import com.wonddak.hellogin.core.TokenResultHandler
+import com.wonddak.hellogin.core.getFont
 import io.github.jmseb3.hellogin_google_ui.generated.resources.Res
 import io.github.jmseb3.hellogin_google_ui.generated.resources.ic_google
-import io.github.jmseb3.hellogin_google_ui.generated.resources.roboto_medium
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
 
 /**
@@ -45,7 +40,6 @@ import org.jetbrains.compose.resources.painterResource
  *
  * @see[ButtonType] type info
  * @see[ButtonTheme] theme info
- * @see[GoogleTokenHandler] GoogleTokenHandler
  */
 @Composable
 fun GoogleLoginButton(
@@ -53,8 +47,7 @@ fun GoogleLoginButton(
     type : ButtonType = ButtonType.WithText("Sign in with Google"),
     mode : ButtonTheme = ButtonTheme.Light,
     shape: Shape = ButtonDefaults.shape,
-    fontSize: TextUnit = 14.sp,
-    tokenResultHandler: GoogleTokenHandler? = null
+    fontSize: TextUnit = 14.sp
 ) {
     val scope = rememberCoroutineScope()
     if (type is ButtonType.WithText) {
@@ -65,11 +58,7 @@ fun GoogleLoginButton(
             contentPadding = PaddingValues(horizontal = horizontalPadding),
             onClick = {
                 scope.launch {
-                    if (tokenResultHandler == null) {
-                        GoogleLoginHelper.requestLogin()
-                    } else {
-                        GoogleLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
-                    }
+                    GoogleLoginHelper.requestLogin()
                 }
             },
             shape = shape,
@@ -83,9 +72,7 @@ fun GoogleLoginButton(
                     text = type.text,
                     maxLines = 1,
                     fontSize = fontSize,
-                    fontFamily = FontFamily(
-                        Font(Res.font.roboto_medium, FontWeight.Medium, FontStyle.Normal),
-                    )
+                    fontFamily = getFont()
                 )
             }
         }
@@ -95,11 +82,7 @@ fun GoogleLoginButton(
             contentPadding = PaddingValues(0.dp),
             onClick = {
                 scope.launch {
-                    if (tokenResultHandler == null) {
-                        GoogleLoginHelper.requestLogin()
-                    } else {
-                        GoogleLoginHelper.requestLoginWithTokenHandler(tokenResultHandler)
-                    }
+                    GoogleLoginHelper.requestLogin()
                 }
             },
             shape = shape,

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.application)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -44,6 +45,9 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -51,10 +55,8 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(project(":hellogin-core"))
-            implementation(project(":hellogin-google"))
-            implementation(project(":hellogin-core-ui"))
             implementation(project(":hellogin-google-ui"))
+            implementation(project(":hellogin-github-ui"))
         }
 
         commonTest.dependencies {

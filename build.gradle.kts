@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
 import java.util.Properties
 
 plugins {
@@ -8,12 +9,12 @@ plugins {
     alias(libs.plugins.cocoapods).apply(false)
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.android.library).apply(false)
+    alias(libs.plugins.serialization).apply(false)
     id("org.jetbrains.dokka") version "1.9.20"
     `maven-publish`
     signing
 }
 
-val isSnapshot: String by project
 
 subprojects {
     if (name.startsWith("hellogin") && name != "hellogin-bom") {
@@ -21,12 +22,6 @@ subprojects {
         apply(plugin = "maven-publish")
         apply(plugin = "signing")
 
-        this.group = "io.github.jmseb3"
-        if (isSnapshot == "true") {
-            this.version = "1.0.0-SNAPSHOT"
-        } else {
-            this.version = "1.0.0"
-        }
         // Stub secrets to let the project sync and build without the publication values set up
         ext["signing.keyId"] = null
         ext["signing.password"] = null
