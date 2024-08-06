@@ -1,3 +1,5 @@
+import com.wonddak.hellogin.HelloginVersionPlugin
+import com.wonddak.hellogin.getAllLibVersionList
 import java.util.Properties
 
 plugins {
@@ -44,7 +46,7 @@ afterEvaluate {
             create<MavenPublication>("bom") {
                 groupId = "io.github.jmseb3"
                 artifactId = "hellogin-bom"
-                version = "1.0.0"
+                version = "1.0.1"
 
                 pom {
                     name.set("hellogin-bom")
@@ -74,16 +76,11 @@ afterEvaluate {
                     val dependenciesNode = asNode().appendNode("dependencyManagement")
                     val dependenciesElement = dependenciesNode.appendNode("dependencies")
 
-                    listOf(
-                        "core" to "1.0.0",
-                        "core-ui" to "1.0.0",
-                        "google" to "1.0.0",
-                        "google-ui" to "1.0.0",
-                    ).forEach { item ->
+                    getAllLibVersionList().forEach { (name, version) ->
                         dependenciesElement.appendNode("dependency").apply {
                             appendNode("groupId", "io.github.jmseb3")
-                            appendNode("artifactId", "hellogin-${item.first}")
-                            appendNode("version", item.second)
+                            appendNode("artifactId", name)
+                            appendNode("version", version)
                         }
                     }
                 }

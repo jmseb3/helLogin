@@ -1,5 +1,5 @@
+import com.wonddak.hellogin.AppConfig
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import com.android.build.api.dsl.ManagedVirtualDevice
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.android.library)
+    HelloginVersionPlugin
 }
 
 kotlin {
@@ -43,7 +44,7 @@ kotlin {
         version = "1.0.0"
         summary = "Compose application framework"
         homepage = "empty"
-        ios.deploymentTarget = "13.0"
+        ios.deploymentTarget = AppConfig.deploymentTarget
         framework {
             baseName = "helloginGithubUi"
             isStatic = true
@@ -71,10 +72,10 @@ kotlin {
 
 android {
     namespace = "com.wonddak.hellogin.github"
-    compileSdk = 34
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        minSdk = 24
+        minSdk = AppConfig.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     sourceSets["main"].apply {
