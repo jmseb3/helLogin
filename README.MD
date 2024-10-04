@@ -2,19 +2,21 @@
 
 This is Compose Multiplatform auth library
 
-|              | Android                                                 | IOS                                             |
-|--------------|---------------------------------------------------------|-------------------------------------------------|
-| google-Login | ![androidGoogle](./screenshot/android_google_login.jpg) | ![iOSGoogle](./screenshot/ios_google_login.png) |
-| github-Login | ![androidGithub]()                                      | ![iOSGithub]()                                  |
+> This is Development!!
+
+|              | Android            | IOS            |
+|--------------|--------------------|----------------|
+| google-Login | ![androidGoogle]() | ![iOSGoogle]() |
+| github-Login | ![androidGithub]() | ![iOSGithub]() |
+| apple-Login  | ![androidApple]()  | ![iOSApple]()  |
 
 ## Features
 
 - ✅ Google Login
 - ✅ Github Login
+- ✅ Apple Login
 
 ## To be added
-
-- ❎ Apple Login
 - ❎ Naver Login
 
 ## Installation
@@ -148,7 +150,8 @@ fun MainViewController(): UIViewController {
 > don't forget [Google Api console setting](https://console.cloud.google.com/)!!
 
 > also default setting
-> look [Android](https://developers.google.com/identity/android-credential-manager)/ [IOS](https://developers.google.com/identity/sign-in/ios/start-integrating)
+>
+look [Android](https://developers.google.com/identity/android-credential-manager)/ [IOS](https://developers.google.com/identity/sign-in/ios/start-integrating)
 
 1. plz install first `GoogleOptionProvider`per platform
 
@@ -176,7 +179,8 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
 ~~~
 
 > use `OptionProviderAndroid` because
-> need [`GetGoogleIdOption`](https://developers.google.com/identity/android-credential-manager/android/reference/kotlin/com/google/android/libraries/identity/googleid/GetGoogleIdOption)
+> need [
+`GetGoogleIdOption`](https://developers.google.com/identity/android-credential-manager/android/reference/kotlin/com/google/android/libraries/identity/googleid/GetGoogleIdOption)
 
 #### IOS
 
@@ -206,10 +210,11 @@ make [Github OAuth Apps](https://github.com/settings/developers) and don't forge
 your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
 
 > also android need scheme setting .. if callback is `hellogin://login` then
+
 ~~~xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-   
+
     <application>
         <activity>
             ...
@@ -219,9 +224,7 @@ your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="login"
-                    android:scheme="hellogin"/>
+                <data android:host="login" android:scheme="hellogin" />
             </intent-filter>
         </activity>
     </application>
