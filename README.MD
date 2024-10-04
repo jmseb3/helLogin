@@ -85,26 +85,26 @@ how to use this library
 
 ### Android
 
-use `HelloginDefaultProvider.setContainer(this)` on Activity onCreate
+use `HelloginContainerProvider.setContainer(this)` on Activity onCreate
 
 ~~~kotlin
 class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ...
-        HelloginDefaultProvider.setContainer(this)
+        HelloginContainerProvider.setContainer(this)
     }
 }
 ~~~
 
 ### IOS
 
-use `HelloginDefaultProvider.setContainer(this)` on MainViewController create
+use `HelloginContainerProvider.setContainer(this)` on MainViewController create
 
 ~~~kotlin
 fun MainViewController(): UIViewController {
     return ComposeUIViewController { App() }.also {
-        HelloginDefaultProvider.setContainer(it)
+        HelloginContainerProvider.setContainer(it)
     }
 }
 ~~~
