@@ -1,8 +1,9 @@
 package com.wonddak.hellogin.github
 
 import com.wonddak.hellogin.core.Error
-import com.wonddak.hellogin.core.HelloginDefaultProvider
+import com.wonddak.hellogin.core.HelloginContainerProvider
 import com.wonddak.hellogin.core.LoginRequester
+import com.wonddak.hellogin.core.TokenResultHandler
 import com.wonddak.hellogin.github.network.model.AuthRequestData
 import com.wonddak.hellogin.github.network.model.CodeRequestData
 import com.wonddak.hellogin.github.network.GithubClient
@@ -21,27 +22,32 @@ object GithubLoginHelper : LoginRequester<GithubResult> {
         this.optionProvider = optionProvider
     }
 
+    private var savedTokenHandler : TokenResultHandler<GithubResult>? = null
     /**
      * requestLogin
      */
-    override suspend fun requestLogin() {
+    override suspend fun requestLogin(tokenHandler: TokenResultHandler<GithubResult>) {
         require(optionProvider != null) { "optionProvider not init" }
-        provider.startGithubLogin(optionProvider!!)
+        savedTokenHandler = tokenHandler
+        provider.startGithubLogin(optionProvider!!, tokenHandler)
     }
 
-    suspend fun requestAuth(code:String) {
-        val tokenHandler = HelloginDefaultProvider.getAnyTokenHandler()
-        client.requestAccessToken(AuthRequestData(optionProvider!!.provideClientData(),code))
+    /**
+     * request AuthToken
+     */
+    suspend fun requestAuth(code: String) {
+        require(savedTokenHandler != null) { "TokenResultHandler not init" }
+        client.requestAccessToken(AuthRequestData(optionProvider!!.provideClientData(), code))
             .onSuccess {
-                tokenHandler.onSuccess(it)
+                savedTokenHandler!!.onSuccess(it)
             }.onFailure {
-                tokenHandler.onFail(it as Error)
+                savedTokenHandler!!.onFail(it as Error)
             }
     }
 }
 
 /**
- * expect Class For github Login
+ * Class For github Login
  */
 internal expect class GithubLoginProvider() {
     /**
@@ -49,6 +55,7 @@ internal expect class GithubLoginProvider() {
      */
     suspend fun startGithubLogin(
         optionProvider: GithubOptionProvider,
+        tokenHandler: TokenResultHandler<GithubResult>
     )
 }
 
@@ -58,16 +65,41 @@ internal expect class GithubLoginProvider() {
 interface GithubOptionProvider {
     /**
      * request For Code
+     *
+     * **See Also:** [github Document](https://docs.github.com/ko/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#web-application-flow)
      */
     fun provideLoginId(): CodeRequestData
 
     /**
      * request For AccessToken
+     *
+     * **See Also:** [github Document](https://docs.github.com/ko/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#2-users-are-redirected-back-to-your-site-by-github)
      */
-    fun provideClientData() : ClientData
+    fun provideClientData(): ClientData
 
     /**
      * CallBack Scheme
+     * if scheme is hellogin
+     * ```xml
+     * //Android AndroidManifest.xml
+     * <application
+     *         android:name=".AndroidApp"
+     *         android:icon="@android:drawable/ic_menu_compass"
+     *         android:label="HeLLogin"
+     *         <activity
+     *             android:name=".AppActivity"
+     *             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+     *             android:launchMode="singleInstance"
+     *             android:windowSoftInputMode="adjustPan"
+     *             android:exported="true">
+     *
+     *                 <data
+     *                     android:host="login"
+     *                     android:scheme="hellogin"/>
+     *             </intent-filter>
+     *         </activity>
+     *     </application>
+     * ```
      */
     fun provideScheme(): String
 }

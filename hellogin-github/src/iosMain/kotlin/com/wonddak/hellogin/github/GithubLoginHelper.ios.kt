@@ -1,7 +1,9 @@
 package com.wonddak.hellogin.github
 
 import com.wonddak.hellogin.core.Container
-import com.wonddak.hellogin.core.HelloginDefaultProvider
+import com.wonddak.hellogin.core.HelloginContainerProvider
+import com.wonddak.hellogin.core.TokenResultHandler
+import com.wonddak.hellogin.github.network.model.GithubResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,7 +14,7 @@ import platform.Foundation.NSURL
 import platform.darwin.NSObject
 
 /**
- * expect Class For github Login
+ * Class For github Login
  */
 internal actual class GithubLoginProvider actual constructor() {
 
@@ -25,12 +27,14 @@ internal actual class GithubLoginProvider actual constructor() {
     }
 
     private val scope = CoroutineScope(Dispatchers.Main)
-
     /**
      * Start Request For Google Login
      */
-    actual suspend fun startGithubLogin(optionProvider: GithubOptionProvider) {
-        val container = HelloginDefaultProvider.getContainer()
+    actual suspend fun startGithubLogin(
+        optionProvider: GithubOptionProvider,
+        tokenHandler: TokenResultHandler<GithubResult>
+    ) {
+        val container = HelloginContainerProvider.getContainer()
         val urlString = GithubPath.getLoginPage(optionProvider.provideLoginId())
         val url: NSURL = NSURL.URLWithString(urlString)!!
         val webAuthSession: ASWebAuthenticationSession = ASWebAuthenticationSession(

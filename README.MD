@@ -17,6 +17,7 @@ This is Compose Multiplatform auth library
 - ✅ Apple Login
 
 ## To be added
+
 - ❎ Naver Login
 
 ## Installation
@@ -82,43 +83,7 @@ sourceSets {
 
 how to use this library
 
-### Common
-
-Common Setting Per Platform setContainer!!
-
-init `TokenResultHandler` use by `HelloginDefaultProvider.setAnyTokenHandler()` for `(platform)Type`
-
-~~~kotlin
-internal class AnyTokenCallBack : TokenResultHandler {
-    override fun onSuccess(token: Any) {
-        if (token is GoogleResult) {
-            println("Google onSuccess with $token >> ${token.getTokenString()}")
-        } else if (token is GithubResult) {
-            println("Github onSuccess with $token >> ${token.accessToken}")
-        }
-        // handle token...
-    }
-
-    override fun onFail(error: Error?) {
-        println("onFail with $error}")
-    }
-}
-~~~
-
-- [GoogleResult](./hellogin-google/src/commonMain/kotlin/com/wonddak/hellogin/google/GoogleRequester.kt)
-- [GithubResult](./hellogin-github/src/commonMain/kotlin/com/wonddak/hellogin/github/network/model/GithubResult.kt)
-
-~~~kotlin
-@Composable
-internal fun App() = AppTheme {
-    LaunchedEffect(true) {
-        HelloginDefaultProvider.setAnyTokenHandler(AnyTokenCallBack())
-    }
-    ...
-}
-~~~
-
-#### Android
+### Android
 
 use `HelloginDefaultProvider.setContainer(this)` on Activity onCreate
 
@@ -126,14 +91,13 @@ use `HelloginDefaultProvider.setContainer(this)` on Activity onCreate
 class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ...
         HelloginDefaultProvider.setContainer(this)
-        enableEdgeToEdge()
-        setContent { App() }
     }
 }
 ~~~
 
-#### IOS
+### IOS
 
 use `HelloginDefaultProvider.setContainer(this)` on MainViewController create
 
@@ -186,7 +150,7 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
 
 no need any setting for google Login
 
-2. launch `GoogleLoginHelper`
+2. launch `GoogleLoginHelper` with TokenResultHandler
 
 #### No UI
 
@@ -235,6 +199,8 @@ your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
 1. Please install the GitHub provider in the commonMain module (or separately for each platform if
    needed).
 
+#### common
+
 ~~~kotlin
 internal class GitHubProvider : GithubOptionProvider {
     companion object {
@@ -268,6 +234,22 @@ internal fun App() = AppTheme {
         GithubLoginHelper.setOptionProvider(GitHubProvider())
     }
     ...
+}
+~~~
+
+#### Android
+
+~~~kotlin
+class AppActivity : ComponentActivity(), OptionProviderAndroid {
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        CoroutineScope(Dispatchers.Main).launch {
+            intent.data?.getQueryParameter("code")?.let { code ->
+                // Get Token By Intent
+                GithubLoginHelper.requestAuth(code)
+            }
+        }
+    }
 }
 ~~~
 

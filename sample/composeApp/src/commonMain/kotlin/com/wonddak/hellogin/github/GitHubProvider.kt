@@ -5,8 +5,8 @@ import com.wonddak.hellogin.github.network.model.CodeRequestData
 
 internal class GitHubProvider : GithubOptionProvider {
     companion object {
-        const val GITHUB_CLIENT_ID = "YOUR_CLIENT_ID"
-        const val GITHUB_CLIENT_SECRET = "YOUR_CLIENT_SECRET"
+        const val GITHUB_CLIENT_ID = "Ov23lit8TJVzwkKKxmyq"
+        const val GITHUB_CLIENT_SECRET = "f3bbd606acf75189c24d678bc7208e7ee3c2e71a"
     }
 
     override fun provideLoginId(): CodeRequestData {

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
+import com.wonddak.hellogin.core.TokenResultHandler
 import com.wonddak.hellogin.core.getFont
 import io.github.jmseb3.hellogin_google_ui.generated.resources.Res
 import io.github.jmseb3.hellogin_google_ui.generated.resources.ic_google
@@ -43,6 +44,7 @@ import org.jetbrains.compose.resources.painterResource
  */
 @Composable
 fun GoogleLoginButton(
+    tokenResultHandler: TokenResultHandler<GoogleResult>,
     modifier: Modifier = Modifier,
     type : ButtonType = ButtonType.WithText("Sign in with Google"),
     mode : ButtonTheme = ButtonTheme.Light,
@@ -50,6 +52,10 @@ fun GoogleLoginButton(
     fontSize: TextUnit = 14.sp
 ) {
     val scope = rememberCoroutineScope()
+
+    val requestLogin = {scope.launch {
+        GoogleLoginHelper.requestLogin(tokenResultHandler)
+    }}
     if (type is ButtonType.WithText) {
         val horizontalPadding = 12.dp
         val iconTextPadding = 10.dp
@@ -57,9 +63,7 @@ fun GoogleLoginButton(
             modifier = modifier.height(44.dp),
             contentPadding = PaddingValues(horizontal = horizontalPadding),
             onClick = {
-                scope.launch {
-                    GoogleLoginHelper.requestLogin()
-                }
+                requestLogin()
             },
             shape = shape,
             colors = getButtonColor(mode),
@@ -81,9 +85,7 @@ fun GoogleLoginButton(
             modifier = modifier.size(44.dp),
             contentPadding = PaddingValues(0.dp),
             onClick = {
-                scope.launch {
-                    GoogleLoginHelper.requestLogin()
-                }
+                requestLogin()
             },
             shape = shape,
             colors = getButtonColor(mode),

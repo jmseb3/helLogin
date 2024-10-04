@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/helloginGoogle.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '13.0'
-    spec.dependency 'GoogleSignIn'
+    spec.dependency 'GoogleSignIn', '8.0'
                 
     if !Dir.exist?('build/cocoapods/framework/helloginGoogle.framework') || Dir.empty?('build/cocoapods/framework/helloginGoogle.framework')
         raise "

@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
 import com.wonddak.hellogin.core.Error
-import com.wonddak.hellogin.core.HelloginDefaultProvider
 import com.wonddak.hellogin.core.TokenResultHandler
 import com.wonddak.hellogin.github.GitHubProvider
 import com.wonddak.hellogin.github.GithubLoginButton
@@ -31,29 +30,13 @@ import com.wonddak.hellogin.github.GithubLoginHelper
 import com.wonddak.hellogin.github.network.model.GithubResult
 import com.wonddak.hellogin.google.GoogleLoginButton
 import com.wonddak.hellogin.google.GoogleResult
-import com.wonddak.hellogin.google.getTokenString
+import com.wonddak.hellogin.google.getTokenResult
 import com.wonddak.hellogin.theme.AppTheme
-
-internal class AnyTokenCallBack : TokenResultHandler {
-    override fun onSuccess(token: Any) {
-        if (token is GoogleResult) {
-            println("Google onSuccess with $token >> ${token.getTokenString()}")
-        } else if (token is GithubResult) {
-            println("Github onSuccess with $token >> ${token.accessToken}")
-        }
-    }
-
-    override fun onFail(error: Error?) {
-        println("onFail with $error}")
-    }
-}
-
 
 @Composable
 internal fun App() = AppTheme {
     LaunchedEffect(true) {
         GithubLoginHelper.setOptionProvider(GitHubProvider())
-        HelloginDefaultProvider.setAnyTokenHandler(AnyTokenCallBack())
     }
     var loginType by remember {
         mutableStateOf(LoginType.Google)
@@ -64,10 +47,14 @@ internal fun App() = AppTheme {
     var mode: ButtonTheme by remember {
         mutableStateOf(ButtonTheme.Light)
     }
-    LaunchedEffect(loginType,type) {
+    LaunchedEffect(loginType, type) {
         if (type is ButtonType.WithText) {
             type = ButtonType.WithText(loginType.text)
         }
+    }
+
+    var result : Any? by remember {
+        mutableStateOf(null)
     }
 
     Column(
@@ -82,7 +69,7 @@ internal fun App() = AppTheme {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ){
+            ) {
                 LoginType.entries.forEach {
                     OutlinedButton(
                         onClick = {
@@ -98,7 +85,7 @@ internal fun App() = AppTheme {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ){
+            ) {
                 OutlinedButton(
                     onClick = {
                         type = ButtonType.IconOnly
@@ -121,7 +108,7 @@ internal fun App() = AppTheme {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ){
+            ) {
                 OutlinedButton(
                     onClick = {
                         mode = ButtonTheme.Light
@@ -142,26 +129,52 @@ internal fun App() = AppTheme {
                 }
             }
         }
+        val googleToken = object : TokenResultHandler<GoogleResult> {
+            override fun onSuccess(token: GoogleResult) {
+                result = "Google : ${token.getTokenResult()}"
+            }
+
+            override fun onFail(error: Error?) {
+                println("Fail to google Login $error")
+            }
+        }
+
+        val githubToken = object : TokenResultHandler<GithubResult> {
+            override fun onSuccess(token: GithubResult) {
+                result = "Github : ${token.accessToken}"
+            }
+
+            override fun onFail(error: Error?) {
+                println("Fail to google Login $error")
+            }
+        }
 
         when (loginType) {
             LoginType.Google -> {
                 GoogleLoginButton(
+                    tokenResultHandler = googleToken,
+                    type = type,
+                    mode = mode,
+                )
+            }
+            LoginType.GitHub -> {
+                GithubLoginButton(
+                    tokenResultHandler = githubToken,
                     type = type,
                     mode = mode,
                 )
             }
 
-            LoginType.GitHub -> {
-                GithubLoginButton(
-                    type = type,
-                    mode = mode,
-                )
+            else -> {
+                Text("Not Support type")
             }
         }
+
+        Text(result?.toString() ?: "")
     }
 }
 
-enum class LoginType(val text :String) {
+enum class LoginType(val text: String) {
     Google("Sign in with Google"),
     GitHub("Sign in with GitHub")
 }

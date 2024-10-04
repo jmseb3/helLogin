@@ -15,5 +15,5 @@ fun topViewController(): Container {
 
 @ExperimentalUnitApi
 fun setDefaultTopController() {
-    HelloginDefaultProvider.setContainer(topViewController())
+    HelloginContainerProvider.setContainer(topViewController())
 }

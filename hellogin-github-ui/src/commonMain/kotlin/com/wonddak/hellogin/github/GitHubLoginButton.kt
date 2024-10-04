@@ -26,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
+import com.wonddak.hellogin.core.TokenResultHandler
 import com.wonddak.hellogin.core.getFont
+import com.wonddak.hellogin.github.network.model.GithubResult
 import io.github.jmseb3.hellogin_github_ui.generated.resources.Res
 import io.github.jmseb3.hellogin_github_ui.generated.resources.github_mark
 import io.github.jmseb3.hellogin_github_ui.generated.resources.github_mark_white
@@ -47,6 +49,7 @@ import org.jetbrains.compose.resources.painterResource
  */
 @Composable
 fun GithubLoginButton(
+    tokenResultHandler: TokenResultHandler<GithubResult>,
     modifier: Modifier = Modifier,
     type : ButtonType = ButtonType.WithText("Sign in with GitHub"),
     mode : ButtonTheme = ButtonTheme.Light,
@@ -62,7 +65,7 @@ fun GithubLoginButton(
             contentPadding = PaddingValues(horizontal = horizontalPadding),
             onClick = {
                 scope.launch {
-                    GithubLoginHelper.requestLogin()
+                    GithubLoginHelper.requestLogin(tokenResultHandler)
                 }
             },
             shape = shape,
@@ -86,7 +89,7 @@ fun GithubLoginButton(
             contentPadding = PaddingValues(0.dp),
             onClick = {
                 scope.launch {
-                    GithubLoginHelper.requestLogin()
+                    GithubLoginHelper.requestLogin(tokenResultHandler)
                 }
             },
             shape = shape,

@@ -49,7 +49,9 @@ kotlin {
             baseName = "helloginGoogle"
             isStatic = true
         }
-        pod("GoogleSignIn")
+        pod("GoogleSignIn") {
+            version = "8.0"
+        }
     }
 
     sourceSets {

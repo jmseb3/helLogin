@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.wonddak.hellogin.core.HelloginDefaultProvider
+import com.wonddak.hellogin.core.HelloginContainerProvider
 import com.wonddak.hellogin.github.GithubLoginHelper
 import com.wonddak.hellogin.google.GoogleLoginHelper
 import com.wonddak.hellogin.google.OptionProviderAndroid
@@ -29,7 +29,7 @@ class AndroidApp : Application() {
 class AppActivity : ComponentActivity(), OptionProviderAndroid {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        HelloginDefaultProvider.setContainer(this)
+        HelloginContainerProvider.setContainer(this)
         GoogleLoginHelper.setOptionProvider(this)
         enableEdgeToEdge()
         setContent { App() }
@@ -40,7 +40,7 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
         println(">>> onNewIntent")
         CoroutineScope(Dispatchers.Main).launch {
             intent.data?.getQueryParameter("code")?.let { code ->
-                // 엑세스 토큰 받아와야함
+                // Get Token By Intent
                 GithubLoginHelper.requestAuth(code)
             }
         }
