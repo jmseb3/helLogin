@@ -1,4 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import com.wonddak.hellogin.AppConfig
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
@@ -7,8 +8,9 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.serialization)
+    alias(libs.plugins.cocoapods)
+    alias(libs.plugins.android.library)
+    HelloginVersionPlugin
 }
 
 kotlin {
@@ -30,15 +32,21 @@ kotlin {
                 implementation(libs.androidx.junit4)
             }
         }
+        publishLibraryVariants("release")
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "ComposeApp"
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+
+    cocoapods {
+        version = "1.0.0"
+        summary = "Compose application framework"
+        homepage = "empty"
+        ios.deploymentTarget = AppConfig.deploymentTarget
+        framework {
+            baseName = "helloginApple"
             isStatic = true
         }
     }
@@ -48,15 +56,7 @@ kotlin {
             languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-
-            implementation(project(":hellogin-google-ui"))
-            implementation(project(":hellogin-github-ui"))
-            implementation(project(":hellogin-apple"))
+            api(project(":hellogin-core"))
         }
 
         commonTest.dependencies {
@@ -66,28 +66,22 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(compose.uiTooling)
-            implementation(libs.androidx.activityCompose)
+
         }
 
         iosMain.dependencies {
+
         }
 
     }
 }
 
 android {
-    namespace = "com.wonddak.hellogin"
-    compileSdk = 35
+    namespace = "com.wonddak.hellogin.apple"
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 34
-
-        applicationId = "com.wonddak.hellogin.androidApp"
-        versionCode = 1
-        versionName = "1.0.0"
-
+        minSdk = AppConfig.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     sourceSets["main"].apply {

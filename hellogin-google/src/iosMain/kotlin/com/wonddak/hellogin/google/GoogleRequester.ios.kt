@@ -11,8 +11,8 @@ import kotlinx.cinterop.ExperimentalForeignApi
 
 actual typealias GoogleResult = GIDSignInResult
 
-actual fun GoogleResult.getTokenString(): String? {
-    return this.user().idToken()?.tokenString
+actual fun GoogleResult.getTokenResult(): String? {
+    return this.user().idToken()?.tokenString()
 }
 
 /**
@@ -36,4 +36,10 @@ internal actual class GoogleLoginProvider actual constructor() {
                 tokenHandler.onSuccess(result)
             }
     }
+}
+
+fun GoogleLoginHelper.setEmptyOption() {
+    this.setOptionProvider(object : GoogleOptionProvider {
+        
+    })
 }

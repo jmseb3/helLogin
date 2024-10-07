@@ -11,6 +11,7 @@ private val moduleVersions: MutableMap<String, String> = mutableMapOf(
     "hellogin-google-ui" to "1.0.1",
     "hellogin-github" to "1.0.0",
     "hellogin-github-ui" to "1.0.0",
+    "hellogin-apple" to "1.0.0",
 )
 
 fun getAllLibVersionList() : List<Pair<String,String>> {
