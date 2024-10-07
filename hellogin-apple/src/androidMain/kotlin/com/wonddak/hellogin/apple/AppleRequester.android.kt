@@ -8,7 +8,7 @@ import com.wonddak.hellogin.core.TokenResultHandler
 import org.jetbrains.annotations.ApiStatus.Experimental
 import java.util.UUID
 
-actual typealias AppleCred = Any
+actual typealias AppleCred = String
 
 private fun AppleSignInRequestScope.convert(): String {
     return when (this) {
@@ -18,9 +18,9 @@ private fun AppleSignInRequestScope.convert(): String {
     }
 }
 
-@Experimental
-internal actual class AppleLoginProvider actual constructor() {
+private var savedTokenHandler : TokenResultHandler<AppleResult>? = null
 
+internal actual class AppleLoginProvider actual constructor() {
     private val mAuthEndpoint = "https://appleid.apple.com/auth/authorize"
     private val mResponseType = "code%20id_token"
     private val mResponseMode = "form_post"
@@ -31,6 +31,7 @@ internal actual class AppleLoginProvider actual constructor() {
         tokenHandler: TokenResultHandler<AppleResult>
     ) {
         if (optionProvider is AppleOptionProviderAndroid) {
+            savedTokenHandler = tokenHandler
             val customTabsIntent = CustomTabsIntent.Builder().build()
             customTabsIntent.launchUrl(
                 HelloginContainerProvider.getContainer(),
@@ -67,7 +68,6 @@ internal actual class AppleLoginProvider actual constructor() {
     }
 }
 
-@Experimental
 /**
  * Option Provider Default Interface
  */
@@ -85,15 +85,22 @@ interface AppleOptionProviderAndroid : AppleOptionProvider {
     val mRedirectUrl: String
 }
 
-@Experimental
-fun parseResultForApple(intent: Intent?, decodeJWT: (String) -> Unit) {
+fun parseResultForApple(intent: Intent?,) {
     intent?.data?.let { url ->
-        val stateParam = url.getQueryParameter("state")
         val idTokenParam = url.getQueryParameter("id_token")
-        val error = url.getQueryParameter("error")
 
         if (idTokenParam != null) {
-            decodeJWT(idTokenParam)
+            savedTokenHandler?.onSuccess(
+                AppleResult(
+                    tokenString = idTokenParam,
+                    nonce = null,
+                    cred = url.toString()
+                )
+            )
+            savedTokenHandler = null
+        } else {
+            savedTokenHandler?.onFail(null)
+            savedTokenHandler = null
         }
     }
 }

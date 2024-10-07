@@ -43,9 +43,7 @@ class AppActivity : ComponentActivity(), GoogleOptionProviderAndroid ,AppleOptio
         println(">>> onNewIntent")
         CoroutineScope(Dispatchers.Main).launch {
 
-            parseResultForApple(intent) {
-
-            }
+            parseResultForApple(intent)
             parseResultForGithub(intent)
         }
     }

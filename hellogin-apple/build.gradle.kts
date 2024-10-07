@@ -66,7 +66,7 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation("androidx.browser:browser:1.8.0")
+            implementation(libs.androidx.browser)
         }
     }
 }
