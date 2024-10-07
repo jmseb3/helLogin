@@ -7,10 +7,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.wonddak.hellogin.apple.AppleOptionProviderAndroid
+import com.wonddak.hellogin.apple.AppleSignInRequestScope
+import com.wonddak.hellogin.apple.parseResultForApple
 import com.wonddak.hellogin.core.HelloginContainerProvider
-import com.wonddak.hellogin.github.GithubLoginHelper
+import com.wonddak.hellogin.github.parseResultForGithub
 import com.wonddak.hellogin.google.GoogleLoginHelper
-import com.wonddak.hellogin.google.OptionProviderAndroid
+import com.wonddak.hellogin.google.GoogleOptionProviderAndroid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +29,7 @@ class AndroidApp : Application() {
     }
 }
 
-class AppActivity : ComponentActivity(), OptionProviderAndroid {
+class AppActivity : ComponentActivity(), GoogleOptionProviderAndroid ,AppleOptionProviderAndroid {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         HelloginContainerProvider.setContainer(this)
@@ -39,10 +42,11 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
         super.onNewIntent(intent)
         println(">>> onNewIntent")
         CoroutineScope(Dispatchers.Main).launch {
-            intent.data?.getQueryParameter("code")?.let { code ->
-                // Get Token By Intent
-                GithubLoginHelper.requestAuth(code)
+
+            parseResultForApple(intent) {
+
             }
+            parseResultForGithub(intent)
         }
     }
 
@@ -53,4 +57,12 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
             .build()
     }
 
+    override val mClientId: String
+        get() = TODO("Not yet implemented")
+
+    override val mRedirectUrl: String
+        get() = "https://hellogin-9db75.firebaseapp.com/__/auth/handler"
+
+    override val requestScope: AppleSignInRequestScope
+        get() = AppleSignInRequestScope.FullNameAndEmail
 }

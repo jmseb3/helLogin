@@ -18,14 +18,22 @@ object AppleLoginHelper : LoginRequester<AppleResult> {
 
     private val provider: AppleLoginProvider = AppleLoginProvider()
 
+    private var optionProvider: AppleOptionProvider? = null
+
+    /**
+     * setOptionProvider
+     * @see[AppleOptionProvider]
+     */
+    fun setOptionProvider(optionProvider: AppleOptionProvider) {
+        this.optionProvider = optionProvider
+    }
     /**
      * requestLogin
      */
     override suspend fun requestLogin(tokenHandler: TokenResultHandler<AppleResult>) {
+        require(optionProvider != null) { "optionProvider not init" }
         provider.startAppleLogin(
-            requestScopes = listOf(
-                AppleSignInRequestScope.Email
-            ),
+            optionProvider!!,
             tokenHandler
         )
     }
@@ -34,7 +42,14 @@ object AppleLoginHelper : LoginRequester<AppleResult> {
 internal expect class AppleLoginProvider() {
 
     suspend fun startAppleLogin(
-        requestScopes: List<AppleSignInRequestScope>,
+        optionProvider: AppleOptionProvider,
         tokenHandler: TokenResultHandler<AppleResult>
     )
+}
+
+/**
+ * Option Provider Default Interface
+ */
+interface AppleOptionProvider {
+    val requestScope : AppleSignInRequestScope
 }

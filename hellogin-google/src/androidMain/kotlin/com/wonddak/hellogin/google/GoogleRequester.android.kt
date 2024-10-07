@@ -26,7 +26,7 @@ internal actual class GoogleLoginProvider actual constructor() {
         optionProvider: GoogleOptionProvider,
         tokenHandler: TokenResultHandler<GoogleResult>
     ) {
-        optionProvider as OptionProviderAndroid
+        optionProvider as GoogleOptionProviderAndroid
 
         val container = HelloginContainerProvider.getContainer()
 
@@ -66,6 +66,6 @@ internal actual class GoogleLoginProvider actual constructor() {
     }
 }
 
-interface OptionProviderAndroid : GoogleOptionProvider {
+interface GoogleOptionProviderAndroid : GoogleOptionProvider {
     fun provideGoogleIdOption(): GetGoogleIdOption
 }

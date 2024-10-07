@@ -24,22 +24,25 @@ actual typealias AppleCred = ASAuthorizationAppleIDCredential
 
 private var currentNonce: String? = null
 
+private fun AppleSignInRequestScope.convert() : List<*> {
+    return when(this){
+        AppleSignInRequestScope.Email -> listOf(ASAuthorizationScopeEmail)
+        AppleSignInRequestScope.FullName ->listOf(ASAuthorizationScopeFullName)
+        AppleSignInRequestScope.FullNameAndEmail -> listOf(ASAuthorizationScopeFullName,ASAuthorizationScopeEmail)
+    }
+}
+
 internal actual class AppleLoginProvider actual constructor() {
 
     actual suspend fun startAppleLogin(
-        requestScopes: List<AppleSignInRequestScope>,
+        optionProvider: AppleOptionProvider,
         tokenHandler: TokenResultHandler<AppleResult>
     ) {
         val nonce = AppleLoginUtil.randomNonceString()
         currentNonce = nonce
         val appleIDProvider = ASAuthorizationAppleIDProvider()
         val request = appleIDProvider.createRequest()
-        request.requestedScopes = requestScopes.map {
-            when (it) {
-                AppleSignInRequestScope.Email -> ASAuthorizationScopeEmail
-                AppleSignInRequestScope.FullName -> ASAuthorizationScopeFullName
-            }
-        }
+        request.requestedScopes = optionProvider.requestScope.convert()
         request.nonce = AppleLoginUtil.sha256(nonce)
         val requests = listOf(request)
 
