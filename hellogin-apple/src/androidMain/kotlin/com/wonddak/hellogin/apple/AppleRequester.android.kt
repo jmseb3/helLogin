@@ -55,7 +55,7 @@ internal actual class AppleLoginProvider actual constructor() {
         url.append(optionProvider.mClientId)
 
         url.append("&scope=")
-        url.append(optionProvider.provideScope().convert())
+        url.append(optionProvider.requestScope.convert())
 
         url.append("&state=")
         url.append(mState)

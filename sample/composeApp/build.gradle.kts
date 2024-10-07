@@ -2,6 +2,8 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -9,6 +11,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.android.application)
     alias(libs.plugins.serialization)
+    id("com.codingfeline.buildkonfig")
 }
 
 kotlin {
@@ -101,5 +104,23 @@ android {
     buildFeatures {
         //enables a Compose tooling support in the AndroidStudio
         compose = true
+    }
+}
+
+buildkonfig {
+    packageName = "com.wonddak.helloginp"
+
+    val secretPropsFile = project.rootProject.file("local.properties")
+
+    defaultConfigs {
+        secretPropsFile.reader().use {
+            Properties().apply {
+                load(it)
+            }
+        }.onEach { (name, value) ->
+            if(name == "GITHUB_CLIENT_SECRET") {
+                buildConfigField(STRING, "githubSecret", value.toString())
+            }
+        }
     }
 }
