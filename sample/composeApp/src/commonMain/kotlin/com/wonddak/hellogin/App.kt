@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,10 +17,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.wonddak.hellogin.apple.AppleLoginButton
+import com.wonddak.hellogin.apple.AppleLoginHelper
+import com.wonddak.hellogin.apple.AppleResult
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
 import com.wonddak.hellogin.core.Error
@@ -32,6 +37,7 @@ import com.wonddak.hellogin.google.GoogleLoginButton
 import com.wonddak.hellogin.google.GoogleResult
 import com.wonddak.hellogin.google.getTokenResult
 import com.wonddak.hellogin.theme.AppTheme
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun App() = AppTheme {
@@ -53,7 +59,7 @@ internal fun App() = AppTheme {
         }
     }
 
-    var result : Any? by remember {
+    var result: Any? by remember {
         mutableStateOf(null)
     }
 
@@ -129,25 +135,45 @@ internal fun App() = AppTheme {
                 }
             }
         }
-        val googleToken = object : TokenResultHandler<GoogleResult> {
-            override fun onSuccess(token: GoogleResult) {
-                result = "Google : ${token.getTokenResult()}"
-            }
+        val googleToken = remember {
+            object : TokenResultHandler<GoogleResult> {
+                override fun onSuccess(token: GoogleResult) {
+                    println("Google Success")
+                    result = "Google : ${token.getTokenResult()}"
+                }
 
-            override fun onFail(error: Error?) {
-                println("Fail to google Login $error")
+                override fun onFail(error: Error?) {
+                    println("Fail to google Login $error")
+                }
             }
         }
 
-        val githubToken = object : TokenResultHandler<GithubResult> {
-            override fun onSuccess(token: GithubResult) {
-                result = "Github : ${token.accessToken}"
-            }
+        val githubToken = remember {
+            object : TokenResultHandler<GithubResult> {
+                override fun onSuccess(token: GithubResult) {
+                    println("Github Success")
+                    result = "Github : ${token.accessToken}"
+                }
 
-            override fun onFail(error: Error?) {
-                println("Fail to google Login $error")
+                override fun onFail(error: Error?) {
+                    println("Fail to github Login $error")
+                }
             }
         }
+
+        val appleToken = remember {
+            object : TokenResultHandler<AppleResult> {
+                override fun onSuccess(token: AppleResult) {
+                    println("Apple Success")
+                    result = "Apple : ${token}"
+                }
+
+                override fun onFail(error: Error?) {
+                    println("Fail to Apple Login $error")
+                }
+            }
+        }
+        val scope = rememberCoroutineScope()
 
         when (loginType) {
             LoginType.Google -> {
@@ -157,11 +183,20 @@ internal fun App() = AppTheme {
                     mode = mode,
                 )
             }
+
             LoginType.GitHub -> {
                 GithubLoginButton(
                     tokenResultHandler = githubToken,
                     type = type,
                     mode = mode,
+                )
+            }
+
+            LoginType.Apple -> {
+                AppleLoginButton(
+                    tokenResultHandler = appleToken,
+                    type = type,
+                    mode = mode
                 )
             }
 
@@ -176,5 +211,6 @@ internal fun App() = AppTheme {
 
 enum class LoginType(val text: String) {
     Google("Sign in with Google"),
-    GitHub("Sign in with GitHub")
+    GitHub("Sign in with GitHub"),
+    Apple("Sign in with Apple"),
 }

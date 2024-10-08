@@ -43,6 +43,7 @@ object GithubLoginHelper : LoginRequester<GithubResult> {
             }.onFailure {
                 savedTokenHandler!!.onFail(it as Error)
             }
+        savedTokenHandler = null
     }
 }
 

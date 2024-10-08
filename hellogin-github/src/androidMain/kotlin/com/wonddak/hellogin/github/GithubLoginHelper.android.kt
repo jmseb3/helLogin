@@ -1,5 +1,6 @@
 package com.wonddak.hellogin.github
 
+import android.content.Intent
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import com.wonddak.hellogin.core.HelloginContainerProvider
@@ -24,5 +25,12 @@ internal actual class GithubLoginProvider actual constructor() {
             .build()
 
         intent.launchUrl(container, Uri.parse(url))
+    }
+}
+
+suspend fun parseResultForGithub(intent: Intent) {
+    intent.data?.getQueryParameter("code")?.let { code ->
+        // Get Token By Intent
+        GithubLoginHelper.requestAuth(code)
     }
 }

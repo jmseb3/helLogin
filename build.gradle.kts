@@ -1,6 +1,10 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
 import java.util.Properties
+
+buildscript {
+    dependencies {
+        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.15.2")
+    }
+}
 
 plugins {
     alias(libs.plugins.multiplatform).apply(false)
