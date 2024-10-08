@@ -40,10 +40,12 @@ sourceSets {
         implementation(platform("io.github.jmseb3:hellogin-bom:<version>"))
 
         implementation("io.github.jmseb3:hellogin-google") //google login library
-        implementation("io.github.jmseb3:hellogin-github") //github login library
-
+        implementation("io.github.jmseb3:hellogin-github") //github login library 
+        implementation("io.github.jmseb3:hellogin-apple") //apple login library
+       // or
         implementation("io.github.jmseb3:hellogin-google-ui") //google login with ui library
         implementation("io.github.jmseb3:hellogin-github-ui") //github login with ui library
+        implementation("io.github.jmseb3:hellogin-apple-ui") //apple login with ui library
     }
 }
 ```
@@ -52,19 +54,18 @@ or use toml
 
 ~~~toml
 [versions]
-hellogin = "x.y.z"
+hellogin = "1.1.0"
 
 [libraries]
 hellogin-bom = { module = "io.github.jmseb3:hellogin-bom", version.ref = "hellogin" }
 
 hellogin-google = { module = "io.github.jmseb3:hellogin-google" }
 hellogin-github = { module = "io.github.jmseb3:hellogin-github" }
-
+hellogin-apple = { module = "io.github.jmseb3:hellogin-apple" }
+// OR
 hellogin-google-ui = { module = "io.github.jmseb3:hellogin-google-ui" }
 hellogin-github-ui = { module = "io.github.jmseb3:hellogin-github-ui" }
-
-[bundles]
-hellogin = ["hellogin-google", "hellogin-google-ui", "hellogin-github", "hellogin-github-ui"]
+hellogin-apple-ui = { module = "io.github.jmseb3:hellogin-apple-ui" }
 
 ~~~
 
@@ -72,7 +73,12 @@ hellogin = ["hellogin-google", "hellogin-google-ui", "hellogin-github", "hellogi
 sourceSets {
     commonMain.dependencies {
         implementation(platform(libs.plugin.hellogin.bom))
-        implementation(libs.bundles.hellogin)
+        implementation(libs.hellogin.google)
+        implementation(libs.hellogin.github)
+        implementation(libs.hellogin.apple)
+        implementation(libs.hellogin.google.ui)
+        implementation(libs.hellogin.github.ui)
+        implementation(libs.hellogin.apple.ui)
     }
 }
 ```
@@ -155,17 +161,15 @@ no need any setting for google Login
 #### No UI
 
 ~~~kotlin
-   GoogleLoginHelper.requestLogin() //this is suspend function
+   GoogleLoginHelper.requestLogin(tokenResultHandler) //this is suspend function
 ~~~
-
-> `requestLogin` need setting GoogleLoginHelper.setTokenHandler()
 
 #### Use UI
 
 if use `io.github.jmseb3:hellogin-google-ui` , `GoogleLoginButton()`
 
 ~~~kotlin
-    GoogleLoginButton() // button action is GoogleLoginHelper.requestLogin()
+    GoogleLoginButton()
 ~~~
 
 ### Github
@@ -253,12 +257,12 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
 }
 ~~~
 
-2. launch `GithubLoginHelper`
+2. launch `GithubLoginHelper` with TokenResultHandler
 
 #### No UI
 
 ~~~kotlin
-   GithubLoginHelper.requestLogin() //this is suspend function
+   GithubLoginHelper.requestLogin(tokenResultHandler) // this is suspend function
 ~~~
 
 #### Use UI
@@ -266,5 +270,7 @@ class AppActivity : ComponentActivity(), OptionProviderAndroid {
 if use `io.github.jmseb3:hellogin-github-ui` , `GithubLoginButton()`
 
 ~~~kotlin
-    GithubLoginButton() // button action is GithubLoginHelper.requestLogin()
+    GithubLoginButton()
 ~~~
+
+### Apple

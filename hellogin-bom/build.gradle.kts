@@ -46,7 +46,7 @@ afterEvaluate {
             create<MavenPublication>("bom") {
                 groupId = "io.github.jmseb3"
                 artifactId = "hellogin-bom"
-                version = "1.0.1"
+                version = "1.1.0"
 
                 pom {
                     name.set("hellogin-bom")
