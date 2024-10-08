@@ -37,7 +37,7 @@ version: ![Maven Central Version](https://img.shields.io/maven-central/v/io.gith
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation(platform("io.github.jmseb3:hellogin-bom:<version>"))
+        implementation(platform("io.github.jmseb3:hellogin-bom:1.1.0"))
 
         implementation("io.github.jmseb3:hellogin-google") //google login library
         implementation("io.github.jmseb3:hellogin-github") //github login library 
@@ -72,10 +72,12 @@ hellogin-apple-ui = { module = "io.github.jmseb3:hellogin-apple-ui" }
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation(platform(libs.plugin.hellogin.bom))
+        implementation(project.dependencies.platform(libs.hellogin.bom))
+
         implementation(libs.hellogin.google)
         implementation(libs.hellogin.github)
         implementation(libs.hellogin.apple)
+
         implementation(libs.hellogin.google.ui)
         implementation(libs.hellogin.github.ui)
         implementation(libs.hellogin.apple.ui)
