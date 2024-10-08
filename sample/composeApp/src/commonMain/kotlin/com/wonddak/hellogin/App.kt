@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.wonddak.hellogin.apple.AppleLoginButton
 import com.wonddak.hellogin.apple.AppleLoginHelper
 import com.wonddak.hellogin.apple.AppleResult
 import com.wonddak.hellogin.core.ButtonTheme
@@ -192,15 +193,11 @@ internal fun App() = AppTheme {
             }
 
             LoginType.Apple -> {
-                Button(
-                    onClick = {
-                        scope.launch {
-                            AppleLoginHelper.requestLogin(appleToken)
-                        }
-                    }
-                ) {
-                    Text("test")
-                }
+                AppleLoginButton(
+                    tokenResultHandler = appleToken,
+                    type = type,
+                    mode = mode
+                )
             }
 
             else -> {

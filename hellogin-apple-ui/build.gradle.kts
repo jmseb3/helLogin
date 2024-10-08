@@ -1,17 +1,16 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import com.wonddak.hellogin.AppConfig
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.serialization)
-    id("com.codingfeline.buildkonfig")
+    alias(libs.plugins.cocoapods)
+    alias(libs.plugins.android.library)
+    HelloginVersionPlugin
 }
 
 kotlin {
@@ -33,15 +32,21 @@ kotlin {
                 implementation(libs.androidx.junit4)
             }
         }
+        publishLibraryVariants("release")
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "ComposeApp"
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+
+    cocoapods {
+        version = "1.0.0"
+        summary = "Compose application framework"
+        homepage = "empty"
+        ios.deploymentTarget = AppConfig.deploymentTarget
+        framework {
+            baseName = "helloginAppleUi"
             isStatic = true
         }
     }
@@ -56,10 +61,8 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-
-            implementation(project(":hellogin-google-ui"))
-            implementation(project(":hellogin-github-ui"))
-            implementation(project(":hellogin-apple-ui"))
+            api(project(":hellogin-apple"))
+            api(project(":hellogin-core-ui"))
         }
 
         commonTest.dependencies {
@@ -67,26 +70,15 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
-
-        androidMain.dependencies {
-            implementation(compose.uiTooling)
-            implementation(libs.androidx.activityCompose)
-        }
     }
 }
 
 android {
-    namespace = "com.wonddak.hellogin"
-    compileSdk = 35
+    namespace = "com.wonddak.hellogin.apple"
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 34
-
-        applicationId = "com.wonddak.hellogin.androidApp"
-        versionCode = 1
-        versionName = "1.0.0"
-
+        minSdk = AppConfig.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     sourceSets["main"].apply {
@@ -100,23 +92,5 @@ android {
     buildFeatures {
         //enables a Compose tooling support in the AndroidStudio
         compose = true
-    }
-}
-
-buildkonfig {
-    packageName = "com.wonddak.helloginp"
-
-    val secretPropsFile = project.rootProject.file("local.properties")
-
-    defaultConfigs {
-        secretPropsFile.reader().use {
-            Properties().apply {
-                load(it)
-            }
-        }.onEach { (name, value) ->
-            if(name == "GITHUB_CLIENT_SECRET") {
-                buildConfigField(STRING, "githubSecret", value.toString())
-            }
-        }
     }
 }

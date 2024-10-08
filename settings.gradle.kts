@@ -13,6 +13,7 @@ include(":hellogin-google")
 include(":hellogin-google-ui")
 
 include(":hellogin-apple")
+include(":hellogin-apple-ui")
 
 
 pluginManagement {

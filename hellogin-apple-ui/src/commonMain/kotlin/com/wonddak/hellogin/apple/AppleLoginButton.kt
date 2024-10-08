@@ -1,13 +1,16 @@
-package com.wonddak.hellogin.github
+package com.wonddak.hellogin.apple
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -15,14 +18,12 @@ import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
 import com.wonddak.hellogin.core.LoginButtonBase
 import com.wonddak.hellogin.core.TokenResultHandler
-import com.wonddak.hellogin.github.network.model.GithubResult
-import io.github.jmseb3.hellogin_github_ui.generated.resources.Res
-import io.github.jmseb3.hellogin_github_ui.generated.resources.github_mark
-import io.github.jmseb3.hellogin_github_ui.generated.resources.github_mark_white
+import io.github.jmseb3.hellogin_apple_ui.generated.resources.Res
+import io.github.jmseb3.hellogin_apple_ui.generated.resources.apple_logo_white
+import io.github.jmseb3.hellogin_apple_ui.generated.resources.apple_logo_black
 import org.jetbrains.compose.resources.painterResource
-
 /**
- * GithubLoginButton
+ * AppleLoginButton
  * @param[tokenResultHandler] tokenResultHandler When startLogin
  * @param[modifier] Modifier
  * @param[type] ButtonType
@@ -34,16 +35,16 @@ import org.jetbrains.compose.resources.painterResource
  * @see[ButtonTheme] theme info
  */
 @Composable
-fun GithubLoginButton(
-    tokenResultHandler: TokenResultHandler<GithubResult>,
+fun AppleLoginButton(
+    tokenResultHandler: TokenResultHandler<AppleResult>,
     modifier: Modifier = Modifier,
-    type : ButtonType = ButtonType.WithText("Sign in with GitHub"),
+    type : ButtonType = ButtonType.WithText("Sign in with Apple"),
     mode : ButtonTheme = ButtonTheme.Light,
     shape: Shape = ButtonDefaults.shape,
     fontSize: TextUnit = 14.sp,
 ) {
     LoginButtonBase(
-        GithubLoginHelper,
+        AppleLoginHelper,
         tokenResultHandler,
         getButtonColor = {
             val containerColor = when (mode) {
@@ -74,20 +75,19 @@ fun GithubLoginButton(
         },
         getIcon = {
             val res = when (mode) {
-                ButtonTheme.Light -> Res.drawable.github_mark
-
-                ButtonTheme.Dark -> Res.drawable.github_mark_white
+                ButtonTheme.Light -> Res.drawable.apple_logo_black
+                ButtonTheme.Dark -> Res.drawable.apple_logo_white
 
             }
             Image(
                 modifier = Modifier.size(20.dp),
                 painter = painterResource(res),
-                contentDescription = "githubIcon"
+                contentDescription = "AppleIcon",
             )
         },
         modifier = modifier,
         type = type,
         shape = shape,
-        fontSize = fontSize
+        fontSize = fontSize,
     )
 }
