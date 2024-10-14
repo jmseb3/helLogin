@@ -26,42 +26,45 @@ internal actual class GoogleLoginProvider actual constructor() {
         optionProvider: GoogleOptionProvider,
         tokenHandler: TokenResultHandler<GoogleResult>
     ) {
-        optionProvider as GoogleOptionProviderAndroid
+        if (optionProvider is GoogleOptionProviderAndroid) {
+            val container = HelloginContainerProvider.getContainer()
 
-        val container = HelloginContainerProvider.getContainer()
+            val request: GetCredentialRequest = GetCredentialRequest.Builder()
+                .addCredentialOption(optionProvider.provideGoogleIdOption())
+                .build()
 
-        val request: GetCredentialRequest = GetCredentialRequest.Builder()
-            .addCredentialOption(optionProvider.provideGoogleIdOption())
-            .build()
-        runCatching {
-            val provideCredentialManager =
-                CredentialManager.create(container.applicationContext)
-            val result = provideCredentialManager.getCredential(
-                request = request,
-                context = container
-            )
-            when (val credential = result.credential) {
-                is CustomCredential -> {
-                    if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                        try {
-                            val googleIdTokenCredential = GoogleIdTokenCredential
-                                .createFrom(credential.data)
+            runCatching {
+                val provideCredentialManager =
+                    CredentialManager.create(container.applicationContext)
+                val result = provideCredentialManager.getCredential(
+                    request = request,
+                    context = container
+                )
+                when (val credential = result.credential) {
+                    is CustomCredential -> {
+                        if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                            try {
+                                val googleIdTokenCredential = GoogleIdTokenCredential
+                                    .createFrom(credential.data)
 
-                            tokenHandler.onSuccess(googleIdTokenCredential)
-                        } catch (e: GoogleIdTokenParsingException) {
-                            tokenHandler.onFail(e)
+                                tokenHandler.onSuccess(googleIdTokenCredential)
+                            } catch (e: GoogleIdTokenParsingException) {
+                                tokenHandler.onFail(e)
+                            }
+                        } else {
+                            throw IllegalArgumentException("This is not CustomCredential But type is not \"TYPE_GOOGLE_ID_TOKEN_CREDENTIAL\"")
                         }
-                    } else {
-                        throw IllegalArgumentException("This is not CustomCredential But type is not TYPE_GOOGLE_ID_TOKEN_CREDENTIAL")
+                    }
+
+                    else -> {
+                        throw IllegalArgumentException("This is not CustomCredential")
                     }
                 }
-
-                else -> {
-                    throw IllegalArgumentException("This is not CustomCredential")
-                }
+            }.onFailure { e ->
+                tokenHandler.onFail(e)
             }
-        }.onFailure { e ->
-            tokenHandler.onFail(e)
+        } else {
+            throw IllegalStateException("on Android need \"GoogleOptionProviderAndroid\" your type is ${optionProvider.javaClass.simpleName} ")
         }
     }
 }

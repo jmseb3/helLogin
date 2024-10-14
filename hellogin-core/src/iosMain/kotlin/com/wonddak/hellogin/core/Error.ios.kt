@@ -15,3 +15,7 @@ fun makeMsgError(msg:String) : NSError {
             )
     )
 }
+
+actual fun Error.getMessage(): String {
+    return this.localizedDescription()
+}
