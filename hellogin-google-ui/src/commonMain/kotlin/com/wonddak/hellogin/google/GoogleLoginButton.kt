@@ -24,7 +24,7 @@ import org.jetbrains.compose.resources.painterResource
  * @param[tokenResultHandler] tokenResultHandler When startLogin
  * @param[modifier] Modifier
  * @param[type] ButtonType
- * @param[mode] ButtonTheme
+ * @param[theme] ButtonTheme
  * @param[shape] shape of Button
  * @param[fontSize] size of text
  *
@@ -36,7 +36,7 @@ fun GoogleLoginButton(
     tokenResultHandler: TokenResultHandler<GoogleResult>,
     modifier: Modifier = Modifier,
     type: ButtonType = ButtonType.WithText("Sign in with Google"),
-    mode: ButtonTheme = ButtonTheme.Light,
+    theme: ButtonTheme = ButtonTheme.Light,
     shape: Shape = ButtonDefaults.shape,
     fontSize: TextUnit = 14.sp
 ) {
@@ -44,12 +44,12 @@ fun GoogleLoginButton(
         GoogleLoginHelper,
         tokenResultHandler,
         getButtonColor = {
-            val containerColor = when (mode) {
+            val containerColor = when (theme) {
                 ButtonTheme.Light -> Color(0xFFFFFFFF)
                 ButtonTheme.Dark -> Color(0xFF131314)
             }
 
-            val contentColor = when (mode) {
+            val contentColor = when (theme) {
                 ButtonTheme.Light -> Color(0xFF1F1F1F)
                 ButtonTheme.Dark -> Color(0xFFE3E3E3)
             }
@@ -60,7 +60,7 @@ fun GoogleLoginButton(
             )
         },
         getBorderStroke = {
-            val borderStroke = when (mode) {
+            val borderStroke = when (theme) {
                 ButtonTheme.Light -> BorderStroke(
                     width = 1.dp,
                     color = Color(0xFF747775),

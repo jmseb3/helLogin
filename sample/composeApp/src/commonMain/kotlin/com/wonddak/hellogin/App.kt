@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wonddak.hellogin.apple.AppleLoginButton
-import com.wonddak.hellogin.apple.AppleLoginHelper
 import com.wonddak.hellogin.apple.AppleResult
 import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
@@ -37,7 +35,6 @@ import com.wonddak.hellogin.google.GoogleLoginButton
 import com.wonddak.hellogin.google.GoogleResult
 import com.wonddak.hellogin.google.getTokenResult
 import com.wonddak.hellogin.theme.AppTheme
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun App() = AppTheme {
@@ -180,7 +177,7 @@ internal fun App() = AppTheme {
                 GoogleLoginButton(
                     tokenResultHandler = googleToken,
                     type = type,
-                    mode = mode,
+                    theme = mode,
                 )
             }
 
@@ -188,7 +185,7 @@ internal fun App() = AppTheme {
                 GithubLoginButton(
                     tokenResultHandler = githubToken,
                     type = type,
-                    mode = mode,
+                    theme = mode,
                 )
             }
 
@@ -196,7 +193,7 @@ internal fun App() = AppTheme {
                 AppleLoginButton(
                     tokenResultHandler = appleToken,
                     type = type,
-                    mode = mode
+                    theme = mode
                 )
             }
 
