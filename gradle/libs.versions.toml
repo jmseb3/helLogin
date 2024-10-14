@@ -1,11 +1,11 @@
 [versions]
 browser = "1.8.0"
-kotlin = "2.0.21-RC"
+kotlin = "2.0.21"
 compose = "1.7.0-rc01"
 agp = "8.6.1"
-androidx-activityCompose = "1.9.0"
-androidx-uiTest = "1.6.7"
-androidx-credential = "1.3.0-rc01"
+androidx-activityCompose = "1.9.2"
+androidx-uiTest = "1.7.3"
+androidx-credential = "1.3.0"
 ktor = "2.3.12"
 
 [libraries]
