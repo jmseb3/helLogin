@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'hellogin_github'
-    spec.version                  = '1.0.0'
-    spec.homepage                 = 'empty'
+    spec.version                  = '1.1.0'
+    spec.homepage                 = 'https://github.com/jmseb3/helLogin'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Compose application framework'
+    spec.summary                  = 'Hellogin Github Login Pods'
     spec.vendored_frameworks      = 'build/cocoapods/framework/helloginGithub.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '13.0'
