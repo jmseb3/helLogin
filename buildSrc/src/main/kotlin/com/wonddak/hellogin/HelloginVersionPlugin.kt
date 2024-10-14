@@ -3,7 +3,7 @@ package com.wonddak.hellogin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-private val moduleVersions: MutableMap<String, String> = mutableMapOf(
+val moduleVersions: MutableMap<String, String> = mutableMapOf(
     "hellogin-core" to "1.1.0",
     "hellogin-core-network" to "1.0.0",
     "hellogin-core-ui" to "1.1.0",

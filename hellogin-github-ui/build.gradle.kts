@@ -1,4 +1,5 @@
 import com.wonddak.hellogin.AppConfig
+import com.wonddak.hellogin.moduleVersions
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -41,9 +42,9 @@ kotlin {
 
 
     cocoapods {
-        version = "1.0.0"
-        summary = "Compose application framework"
-        homepage = "empty"
+        version = moduleVersions[project.name]
+        summary = "Hellogin Github UI Pods"
+        homepage = AppConfig.HOME_PAGE
         ios.deploymentTarget = AppConfig.deploymentTarget
         framework {
             baseName = "helloginGithubUi"
