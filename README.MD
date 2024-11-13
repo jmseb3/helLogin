@@ -62,7 +62,7 @@ hellogin-bom = { module = "io.github.jmseb3:hellogin-bom", version.ref = "hellog
 hellogin-google = { module = "io.github.jmseb3:hellogin-google" }
 hellogin-github = { module = "io.github.jmseb3:hellogin-github" }
 hellogin-apple = { module = "io.github.jmseb3:hellogin-apple" }
-// OR
+# OR
 hellogin-google-ui = { module = "io.github.jmseb3:hellogin-google-ui" }
 hellogin-github-ui = { module = "io.github.jmseb3:hellogin-github-ui" }
 hellogin-apple-ui = { module = "io.github.jmseb3:hellogin-apple-ui" }
@@ -77,7 +77,7 @@ sourceSets {
         implementation(libs.hellogin.google)
         implementation(libs.hellogin.github)
         implementation(libs.hellogin.apple)
-
+        // or 
         implementation(libs.hellogin.google.ui)
         implementation(libs.hellogin.github.ui)
         implementation(libs.hellogin.apple.ui)
@@ -133,20 +133,22 @@ look [Android](https://developers.google.com/identity/android-credential-manager
 #### Android
 
 ~~~kotlin
-class AppActivity : ComponentActivity(), OptionProviderAndroid {
+class MyGoogleOptionProvider : GoogleOptionProviderAndroid {
+
+   override fun provideGoogleIdOption(): GetGoogleIdOption {
+      return GetGoogleIdOption.Builder()
+         .setFilterByAuthorizedAccounts(false)
+         .setServerClientId("WEB_CLIENT_ID")
+         .build()
+   }
+}
+
+class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ...
-        GoogleLoginHelper.setOptionProvider(this)
+         super.onCreate(savedInstanceState)
+         GoogleLoginHelper.setOptionProvider(MyGoogleOptionProvider())
+         //Add Other Code
     }
-
-    override fun provideGoogleIdOption(): GetGoogleIdOption {
-        return GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("WEB_CLIENT_ID")
-            .build()
-    }
-
 }
 ~~~
 
@@ -163,7 +165,7 @@ no need any setting for google Login
 #### No UI
 
 ~~~kotlin
-   GoogleLoginHelper.requestLogin(tokenResultHandler) //this is suspend function
+GoogleLoginHelper.requestLogin(tokenResultHandler) //this is suspend function
 ~~~
 
 #### Use UI
@@ -171,7 +173,7 @@ no need any setting for google Login
 if use `io.github.jmseb3:hellogin-google-ui` , `GoogleLoginButton()`
 
 ~~~kotlin
-    GoogleLoginButton()
+GoogleLoginButton()
 ~~~
 
 ### Github
@@ -208,7 +210,7 @@ your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
 #### common
 
 ~~~kotlin
-internal class GitHubProvider : GithubOptionProvider {
+class GitHubProvider : GithubOptionProvider {
     companion object {
         const val GITHUB_CLIENT_ID = "YOUR_CLIENT_ID"
         const val GITHUB_CLIENT_SECRET = "YOUR_CLIENT_SECRET"
@@ -239,7 +241,7 @@ internal fun App() = AppTheme {
     LaunchedEffect(true) {
         GithubLoginHelper.setOptionProvider(GitHubProvider())
     }
-    ...
+    //...
 }
 ~~~
 
@@ -276,3 +278,33 @@ if use `io.github.jmseb3:hellogin-github-ui` , `GithubLoginButton()`
 ~~~
 
 ### Apple
+
+#### Android
+~~~kotlin
+class MyAppleOptionProvider : AppleOptionProviderAndroid {
+
+   override val mClientId: String
+      get() = "Your Service Id"
+
+   override val mRedirectUrl: String
+      get() = "Your Redirect Url"
+
+   override val requestScope: AppleSignInRequestScope
+      get() = AppleSignInRequestScope.FullNameAndEmail
+}
+
+class AppActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         AppleLoginHelper.setOptionProvider(MyAppleOptionProvider())
+         //Add Other Code
+    }
+   
+}
+~~~
+
+> Unfortunately, Android requires you to work directly from intents.
+
+### IOS
+
+Not Need Any Setting
