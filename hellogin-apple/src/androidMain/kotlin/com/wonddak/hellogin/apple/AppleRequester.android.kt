@@ -85,22 +85,3 @@ interface AppleOptionProviderAndroid : AppleOptionProvider {
     val mRedirectUrl: String
 }
 
-fun parseResultForApple(intent: Intent?,) {
-    intent?.data?.let { url ->
-        val idTokenParam = url.getQueryParameter("id_token")
-
-        if (idTokenParam != null) {
-            savedTokenHandler?.onSuccess(
-                AppleResult(
-                    tokenString = idTokenParam,
-                    nonce = null,
-                    cred = url.toString()
-                )
-            )
-            savedTokenHandler = null
-        } else {
-            savedTokenHandler?.onFail(null)
-            savedTokenHandler = null
-        }
-    }
-}
