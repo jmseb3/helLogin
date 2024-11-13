@@ -28,6 +28,12 @@ internal actual class GithubLoginProvider actual constructor() {
     }
 }
 
+/**
+ * parse query from Intent, getQueryParameter "code"
+ * then GithubLoginHelper.requestAuth("code")
+ *
+ * @param intent
+ */
 suspend fun parseResultForGithub(intent: Intent) {
     intent.data?.getQueryParameter("code")?.let { code ->
         // Get Token By Intent

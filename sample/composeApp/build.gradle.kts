@@ -104,7 +104,7 @@ android {
 }
 
 buildkonfig {
-    packageName = "com.wonddak.helloginp"
+    packageName = "com.wonddak.hellogin"
 
     val secretPropsFile = project.rootProject.file("local.properties")
 
@@ -114,8 +114,26 @@ buildkonfig {
                 load(it)
             }
         }.onEach { (name, value) ->
-            if(name == "GITHUB_CLIENT_SECRET") {
-                buildConfigField(STRING, "githubSecret", value.toString())
+            when (name) {
+                "GITHUB_CLIENT_ID" -> {
+                    buildConfigField(STRING, "githubId", value.toString())
+                }
+
+                "GITHUB_CLIENT_SECRET" -> {
+                    buildConfigField(STRING, "githubSecret", value.toString())
+                }
+
+                "GOOGLE_SERVER_ID" -> {
+                    buildConfigField(STRING, "googleServerId", value.toString())
+                }
+
+                "APPLE_CLIENT_ID" -> {
+                    buildConfigField(STRING, "appleClientId", value.toString())
+                }
+
+                "APPLE_REDIRECT_URL" -> {
+                    buildConfigField(STRING, "appleRedirectUrl", value.toString())
+                }
             }
         }
     }

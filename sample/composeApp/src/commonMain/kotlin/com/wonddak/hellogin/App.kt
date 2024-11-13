@@ -27,7 +27,7 @@ import com.wonddak.hellogin.core.ButtonTheme
 import com.wonddak.hellogin.core.ButtonType
 import com.wonddak.hellogin.core.Error
 import com.wonddak.hellogin.core.TokenResultHandler
-import com.wonddak.hellogin.github.GitHubProvider
+import com.wonddak.hellogin.github.MyGitHubProvider
 import com.wonddak.hellogin.github.GithubLoginButton
 import com.wonddak.hellogin.github.GithubLoginHelper
 import com.wonddak.hellogin.github.network.model.GithubResult
@@ -39,7 +39,7 @@ import com.wonddak.hellogin.theme.AppTheme
 @Composable
 internal fun App() = AppTheme {
     LaunchedEffect(true) {
-        GithubLoginHelper.setOptionProvider(GitHubProvider())
+        GithubLoginHelper.setOptionProvider(MyGitHubProvider())
     }
     var loginType by remember {
         mutableStateOf(LoginType.Google)

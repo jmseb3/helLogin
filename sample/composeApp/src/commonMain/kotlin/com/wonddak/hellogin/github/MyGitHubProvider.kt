@@ -2,11 +2,11 @@ package com.wonddak.hellogin.github
 
 import com.wonddak.hellogin.github.network.model.ClientData
 import com.wonddak.hellogin.github.network.model.CodeRequestData
-import com.wonddak.helloginp.BuildKonfig
+import com.wonddak.hellogin.BuildKonfig
 
-internal class GitHubProvider : GithubOptionProvider {
+internal class MyGitHubProvider : GithubOptionProvider {
     companion object {
-        const val GITHUB_CLIENT_ID = "Ov23lit8TJVzwkKKxmyq"
+        val GITHUB_CLIENT_ID = BuildKonfig.githubId
         val GITHUB_CLIENT_SECRET = BuildKonfig.githubSecret
     }
 
