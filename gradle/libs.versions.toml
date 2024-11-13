@@ -1,7 +1,7 @@
 [versions]
 browser = "1.8.0"
 kotlin = "2.0.21"
-compose = "1.7.0-rc01"
+compose = "1.7.1"
 agp = "8.6.1"
 androidx-activityCompose = "1.9.2"
 androidx-uiTest = "1.7.3"
@@ -19,8 +19,6 @@ androidx-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref =
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credential" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credential" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version = "1.1.1" }
-
-
 
 serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.1" }
 
