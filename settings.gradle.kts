@@ -1,3 +1,20 @@
+pluginManagement {
+    include("build-logic")
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
 rootProject.name = "HeLLogin"
 include(":sample:composeApp")
 
@@ -14,20 +31,3 @@ include(":hellogin-google-ui")
 
 include(":hellogin-apple")
 include(":hellogin-apple-ui")
-
-
-pluginManagement {
-    repositories {
-        google()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
-
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-}
