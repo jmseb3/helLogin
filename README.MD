@@ -34,4 +34,14 @@ See https://jmseb3.github.io/hellogin-doc/start.html
 
 graph LR
   :hellogin-core-ui --> :hellogin-core
+  :hellogin-google --> :hellogin-core
+  :hellogin-apple --> :hellogin-core
+  :hellogin-apple-ui --> :hellogin-apple
+  :hellogin-apple-ui --> :hellogin-core-ui
+  :hellogin-github --> :hellogin-core
+  :hellogin-github --> :hellogin-core-network
+  :hellogin-google-ui --> :hellogin-google
+  :hellogin-google-ui --> :hellogin-core-ui
+  :hellogin-github-ui --> :hellogin-github
+  :hellogin-github-ui --> :hellogin-core-ui
 ```

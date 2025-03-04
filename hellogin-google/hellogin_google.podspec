@@ -5,16 +5,16 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Hellogin Google Login Pods'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/helloginGoogle.framework'
+    spec.summary                  = 'hellogin-google library'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/hellogin_google.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '13.0'
     spec.dependency 'GoogleSignIn', '8.0'
                 
-    if !Dir.exist?('build/cocoapods/framework/helloginGoogle.framework') || Dir.empty?('build/cocoapods/framework/helloginGoogle.framework')
+    if !Dir.exist?('build/cocoapods/framework/hellogin_google.framework') || Dir.empty?('build/cocoapods/framework/hellogin_google.framework')
         raise "
 
-        Kotlin framework 'helloginGoogle' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'hellogin_google' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :hellogin-google:generateDummyFramework
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':hellogin-google',
-        'PRODUCT_MODULE_NAME' => 'helloginGoogle',
+        'PRODUCT_MODULE_NAME' => 'hellogin_google',
     }
                 
     spec.script_phases = [
@@ -50,5 +50,5 @@ Pod::Spec.new do |spec|
             SCRIPT
         }
     ]
-    spec.resources = ['build/compose/cocoapods/compose-resources']
+                
 end

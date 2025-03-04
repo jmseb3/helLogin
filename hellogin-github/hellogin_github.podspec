@@ -5,16 +5,16 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Hellogin Github Login Pods'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/helloginGithub.framework'
+    spec.summary                  = 'hellogin-github library'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/hellogin_github.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '13.0'
                 
                 
-    if !Dir.exist?('build/cocoapods/framework/helloginGithub.framework') || Dir.empty?('build/cocoapods/framework/helloginGithub.framework')
+    if !Dir.exist?('build/cocoapods/framework/hellogin_github.framework') || Dir.empty?('build/cocoapods/framework/hellogin_github.framework')
         raise "
 
-        Kotlin framework 'helloginGithub' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'hellogin_github' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :hellogin-github:generateDummyFramework
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':hellogin-github',
-        'PRODUCT_MODULE_NAME' => 'helloginGithub',
+        'PRODUCT_MODULE_NAME' => 'hellogin_github',
     }
                 
     spec.script_phases = [
@@ -50,5 +50,5 @@ Pod::Spec.new do |spec|
             SCRIPT
         }
     ]
-    spec.resources = ['build/compose/cocoapods/compose-resources']
+                
 end

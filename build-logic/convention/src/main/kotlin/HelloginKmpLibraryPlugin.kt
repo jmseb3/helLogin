@@ -61,6 +61,10 @@ class HelloginKmpLibraryPlugin : Plugin<Project> {
                     }
                 }
 
+                sourceSets.all {
+                    languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                }
+
                 sourceSets.commonTest.dependencies {
                     implementation(kotlin("test"))
                 }
