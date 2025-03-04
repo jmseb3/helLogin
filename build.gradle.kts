@@ -16,4 +16,11 @@ plugins {
     alias(libs.plugins.serialization).apply(false)
     id("org.jetbrains.dokka") version "2.0.0"
     alias(libs.plugins.maven).apply(false)
+    id("dev.iurysouza.modulegraph") version "0.12.0"
+}
+
+moduleGraphConfig {
+    readmePath.set("${rootDir}/README.md")
+    heading.set("## Module Graph")
+    showFullPath.set(false)
 }

@@ -22,3 +22,16 @@ This is Compose Multiplatform auth library
 
 ## Document 
 See https://jmseb3.github.io/hellogin-doc/start.html
+
+## Module Graph
+
+```mermaid
+%%{
+  init: {
+    'theme': 'neutral'
+  }
+}%%
+
+graph LR
+
+```

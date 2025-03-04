@@ -22,7 +22,6 @@ class HelloginKmpLibraryPlugin : Plugin<Project> {
             apply(plugin = "org.jetbrains.kotlin.multiplatform")
             apply(plugin = "com.android.library")
             apply(plugin = "org.jetbrains.kotlin.native.cocoapods")
-            println("{[$name]}")
 
             extensions.configure<KotlinMultiplatformExtension> {
                 compilerOptions {
