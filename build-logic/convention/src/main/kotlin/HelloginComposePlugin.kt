@@ -17,6 +17,9 @@ class HelloginComposePlugin : Plugin<Project> {
                 sourceSets.commonMain.dependencies {
                     implementation(composeDeps.runtime)
                     implementation(composeDeps.foundation)
+                    implementation(composeDeps.material3)
+                    implementation(composeDeps.components.resources)
+                    implementation(composeDeps.components.uiToolingPreview)
                 }
                 sourceSets.commonTest.dependencies {
                     @OptIn(ExperimentalComposeLibrary::class)

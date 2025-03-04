@@ -5,16 +5,16 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Hellogin Core UI Pods'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/helloginCoreUi.framework'
+    spec.summary                  = 'hellogin-core-ui library'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/hellogin_core_ui.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '13.0'
                 
                 
-    if !Dir.exist?('build/cocoapods/framework/helloginCoreUi.framework') || Dir.empty?('build/cocoapods/framework/helloginCoreUi.framework')
+    if !Dir.exist?('build/cocoapods/framework/hellogin_core_ui.framework') || Dir.empty?('build/cocoapods/framework/hellogin_core_ui.framework')
         raise "
 
-        Kotlin framework 'helloginCoreUi' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'hellogin_core_ui' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :hellogin-core-ui:generateDummyFramework
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':hellogin-core-ui',
-        'PRODUCT_MODULE_NAME' => 'helloginCoreUi',
+        'PRODUCT_MODULE_NAME' => 'hellogin_core_ui',
     }
                 
     spec.script_phases = [

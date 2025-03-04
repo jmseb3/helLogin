@@ -8,6 +8,7 @@ androidx-uiTest = "1.7.3"
 androidx-credential = "1.3.0"
 ktor = "3.1.0"
 comVanniktechMavenPublishGradlePlugin = "0.30.0"
+dokka = "2.0.0"
 
 [libraries]
 
@@ -38,6 +39,7 @@ jetbrains-compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradl
 android-tools-common = { group = "com.android.tools", name = "common", version = "31.8.2" }
 kotlinMultiplatform-gradle-plugin = { group = "org.jetbrains.kotlin.multiplatform", name = "org.jetbrains.kotlin.multiplatform.gradle.plugin", version.ref = "kotlin" }
 cocoapod-gradle-plugin = { group = "org.jetbrains.kotlin.native.cocoapods", name = "org.jetbrains.kotlin.native.cocoapods.gradle.plugin", version.ref = "kotlin" }
+dokka-gradle-plugin = { group = "org.jetbrains.dokka", name = "org.jetbrains.dokka.gradle.plugin", version.ref = "dokka" }
 
 [plugins]
 
@@ -49,12 +51,14 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 maven = { id = "com.vanniktech.maven.publish", version = "0.30.0" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 
 # Plugins defined by this project
 hellogin-maven = { id = "com.hellogin.maven" }
 hellogin-kmp-library = { id = "com.hellogin.kmp.library" }
 hellogin-version = { id = "com.hellogin.version" }
 hellogin-compose = { id = "com.hellogin.compose" }
+hellogin-dokka = { id = "com.hellogin.dokka" }
 
 [bundles]
 android-google = ["androidx-credentials", "androidx-credentials-play-services-auth", "googleid"]

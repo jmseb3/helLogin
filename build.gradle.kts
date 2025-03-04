@@ -14,13 +14,13 @@ plugins {
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.android.library).apply(false)
     alias(libs.plugins.serialization).apply(false)
-    id("org.jetbrains.dokka") version "2.0.0"
+    alias(libs.plugins.dokka).apply(false)
     alias(libs.plugins.maven).apply(false)
     id("dev.iurysouza.modulegraph") version "0.12.0"
 }
 
 moduleGraphConfig {
-    readmePath.set("${rootDir}/README.md")
+    readmePath.set("${rootDir}/README.MD")
     heading.set("## Module Graph")
     showFullPath.set(false)
 }

@@ -33,5 +33,5 @@ See https://jmseb3.github.io/hellogin-doc/start.html
 }%%
 
 graph LR
-
+  :hellogin-core-ui --> :hellogin-core
 ```

@@ -20,8 +20,8 @@ rootProject.name = "HeLLogin"
 
 //include(":hellogin-bom")
 include(":hellogin-core")
-//include(":hellogin-core-network")
-//include(":hellogin-core-ui")
+include(":hellogin-core-network")
+include(":hellogin-core-ui")
 //
 //include(":hellogin-github")
 //include(":hellogin-github-ui")

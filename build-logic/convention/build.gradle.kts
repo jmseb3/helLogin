@@ -25,6 +25,7 @@ dependencies {
     compileOnly(libs.kotlinMultiplatform.gradle.plugin)
     compileOnly(libs.cocoapod.gradle.plugin)
     compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.dokka.gradle.plugin)
 }
 
 tasks {
@@ -54,6 +55,11 @@ gradlePlugin {
         register("helloginCompose") {
             id = libs.plugins.hellogin.compose.get().pluginId
             implementationClass = "HelloginComposePlugin"
+        }
+
+        register("helloginDokka") {
+            id = libs.plugins.hellogin.dokka.get().pluginId
+            implementationClass = "HelloginDokkaPlugin"
         }
     }
 }

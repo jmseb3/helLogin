@@ -1,20 +1,20 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'hellogin_core_network'
-    spec.version                  = '1.0.0'
+    spec.version                  = '1.1.0'
     spec.homepage                 = 'https://github.com/jmseb3/helLogin'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Hellogin Core Network Pods'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/helloginCoreNetwork.framework'
+    spec.summary                  = 'hellogin-core-network library'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/hellogin_core_network.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '13.0'
                 
                 
-    if !Dir.exist?('build/cocoapods/framework/helloginCoreNetwork.framework') || Dir.empty?('build/cocoapods/framework/helloginCoreNetwork.framework')
+    if !Dir.exist?('build/cocoapods/framework/hellogin_core_network.framework') || Dir.empty?('build/cocoapods/framework/hellogin_core_network.framework')
         raise "
 
-        Kotlin framework 'helloginCoreNetwork' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'hellogin_core_network' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :hellogin-core-network:generateDummyFramework
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':hellogin-core-network',
-        'PRODUCT_MODULE_NAME' => 'helloginCoreNetwork',
+        'PRODUCT_MODULE_NAME' => 'hellogin_core_network',
     }
                 
     spec.script_phases = [
@@ -50,5 +50,5 @@ Pod::Spec.new do |spec|
             SCRIPT
         }
     ]
-    spec.resources = ['build/compose/cocoapods/compose-resources']
+                
 end
