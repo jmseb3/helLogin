@@ -48,6 +48,7 @@ compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+maven = { id = "com.vanniktech.maven.publish", version = "0.30.0" }
 
 # Plugins defined by this project
 hellogin-maven = { id = "com.hellogin.maven" }

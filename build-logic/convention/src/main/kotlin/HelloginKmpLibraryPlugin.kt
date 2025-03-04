@@ -7,14 +7,13 @@ import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 class HelloginKmpLibraryPlugin : Plugin<Project> {
 
@@ -31,7 +30,7 @@ class HelloginKmpLibraryPlugin : Plugin<Project> {
                 }
                 androidTarget {
                     compilations.all {
-                        (compileTaskProvider as TaskProvider<KotlinCompilationTask<KotlinJvmCompilerOptions>>) {
+                        compileTaskProvider {
                             compilerOptions {
                                 jvmTarget.set(JvmTarget.JVM_11)
                                 freeCompilerArgs.add("-Xjdk-release=${JavaVersion.VERSION_11}")

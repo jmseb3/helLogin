@@ -36,10 +36,10 @@ tasks {
 
 gradlePlugin {
     plugins {
-//        register("creverseMaven") {
-//            id = libs.plugins.hellogin.maven.get().pluginId
-//            implementationClass = "HelloginVersionPlugin"
-//        }
+        register("helloginMaven") {
+            id = libs.plugins.hellogin.maven.get().pluginId
+            implementationClass = "HelloginMavenPlugin"
+        }
 
         register("helloginKmpLibrary") {
             id = libs.plugins.hellogin.kmp.library.get().pluginId
