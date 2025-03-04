@@ -1,12 +1,13 @@
 [versions]
+agp = "8.8.2"
 browser = "1.8.0"
-kotlin = "2.0.21"
-compose = "1.7.1"
-agp = "8.6.1"
+kotlin = "2.1.10"
+compose = "1.7.3"
 androidx-activityCompose = "1.9.2"
 androidx-uiTest = "1.7.3"
 androidx-credential = "1.3.0"
-ktor = "2.3.12"
+ktor = "3.1.0"
+comVanniktechMavenPublishGradlePlugin = "0.30.0"
 
 [libraries]
 
@@ -20,7 +21,7 @@ androidx-credentials = { module = "androidx.credentials:credentials", version.re
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credential" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version = "1.1.1" }
 
-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.1" }
+serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.8.0" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -28,6 +29,15 @@ ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", 
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+
+# build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+maven-publish-gradle-plugin = { module = "com.vanniktech.maven.publish:com.vanniktech.maven.publish.gradle.plugin", version.ref = "comVanniktechMavenPublishGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+jetbrains-compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+android-tools-common = { group = "com.android.tools", name = "common", version = "31.8.2" }
+kotlinMultiplatform-gradle-plugin = { group = "org.jetbrains.kotlin.multiplatform", name = "org.jetbrains.kotlin.multiplatform.gradle.plugin", version.ref = "kotlin" }
+cocoapod-gradle-plugin = { group = "org.jetbrains.kotlin.native.cocoapods", name = "org.jetbrains.kotlin.native.cocoapods.gradle.plugin", version.ref = "kotlin" }
 
 [plugins]
 
@@ -38,6 +48,12 @@ compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# Plugins defined by this project
+hellogin-maven = { id = "com.hellogin.maven" }
+hellogin-kmp-library = { id = "com.hellogin.kmp.library" }
+hellogin-version = { id = "com.hellogin.version" }
+hellogin-compose = { id = "com.hellogin.compose" }
 
 [bundles]
 android-google = ["androidx-credentials", "androidx-credentials-play-services-auth", "googleid"]

@@ -1,4 +1,3 @@
-import com.wonddak.hellogin.HelloginVersionPlugin
 import com.wonddak.hellogin.getAllLibVersionList
 import java.util.Properties
 
